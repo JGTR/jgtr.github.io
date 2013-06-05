@@ -2,15 +2,19 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://jgtr.github.io/blog/2013/06/05/second-post/</loc>
-        <lastmod>2013-06-05T10:34:32-04:00</lastmod>
+        <lastmod>2013-06-05T10:37:25-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://jgtr.github.io/blog/2013/06/05/third-post/</loc>
+        <lastmod>2013-06-05T10:39:31-04:00</lastmod>
     </url>
     <url>
         <loc>http://jgtr.github.io/blog/archives/</loc>
-        <lastmod>2013-06-05T10:34:32-04:00</lastmod>
+        <lastmod>2013-06-05T10:39:31-04:00</lastmod>
     </url>
     <url>
         <loc>http://jgtr.github.io/</loc>
-        <lastmod>2013-06-05T10:34:32-04:00</lastmod>
+        <lastmod>2013-06-05T10:39:31-04:00</lastmod>
     </url>
     <url>
         <loc>http://jgtr.github.io/robots.txt</loc>
