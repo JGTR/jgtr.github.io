@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://jgtr.github.io/sitemap.xml 
+Sitemap: http://JGTR.github.io/sitemap.xml 

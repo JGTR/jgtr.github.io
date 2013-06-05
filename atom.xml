@@ -2,15 +2,24 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://jgtr.github.io/atom.xml" rel="self"/>
-  <link href="http://jgtr.github.io/"/>
-  <updated>2013-06-05T10:21:24-04:00</updated>
-  <id>http://jgtr.github.io/</id>
+  <link href="http://JGTR.github.io/atom.xml" rel="self"/>
+  <link href="http://JGTR.github.io/"/>
+  <updated>2013-06-05T10:32:48-04:00</updated>
+  <id>http://JGTR.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[hello world]]></title>
+    <link href="http://JGTR.github.io/blog/2013/06/05/hello-world/"/>
+    <updated>2013-06-05T10:30:00-04:00</updated>
+    <id>http://JGTR.github.io/blog/2013/06/05/hello-world</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
 </feed>
