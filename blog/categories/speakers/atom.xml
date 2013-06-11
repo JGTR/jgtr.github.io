@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Coding Philosophical]]></title>
-  <link href="http://jgtr.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: speakers, | Coding Philosophical]]></title>
+  <link href="http://jgtr.github.io/blog/categories/speakers/atom.xml" rel="self"/>
   <link href="http://jgtr.github.io/"/>
   <updated>2013-06-11T19:45:46-04:00</updated>
   <id>http://jgtr.github.io/</id>
@@ -50,37 +50,6 @@ We were privileged to hear her talk with the group and answer questions very can
 <h3>My personal reflection</h3>
 
 <p>Sandi is an inspiring down-to-earth figure. I think that the young generations are not frequently well-informed about the history of the industry. Having Sandi recount the experience living through these changes is definitely valuable both practically and from a human perspective. Anyone who develops skill in any field will at some point need to take responsibility for trying to give back to the community and trying to shape it for the better &mdash; Sandi sets a great example.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Reflections after 7 days of coding]]></title>
-    <link href="http://jgtr.github.io/blog/2013/06/11/reflections-after-7-days-of-coding/"/>
-    <updated>2013-06-11T14:59:00-04:00</updated>
-    <id>http://jgtr.github.io/blog/2013/06/11/reflections-after-7-days-of-coding</id>
-    <content type="html"><![CDATA[<p>As a newcomer to the field of coding, I&rsquo;ve had several gut reactions:</p>
-
-<h3>1) Coding feels human</h3>
-
-<p>Non-coders frequently think of coding (as other technical disciplines) as far removed from other creative, artistic or expressive fields. We imagine dark rooms filled with the buzzing of servers.</p>
-
-<p>My immersion in it has proven the contrary: building anything is a fulfilling experience because it gives the architect the experience of going from nothing to something &mdash; it requires imagination.</p>
-
-<p>Debugging is like writing and struggling to find the right word.</p>
-
-<h3>2) There is magic in the code &mdash; really</h3>
-
-<p>As a child, I would wonder about the concept of magic. I thought it was a cool idea, but could never feel comfortable with the notion of &ldquo;abracadabra&rdquo; &mdash; that some specific words or gestures would do something inexplicable. These words or gestures themselves have no further atomizable operations and that just never make sense. Coding bridges this gap.</p>
-
-<p>Coding shows the methods behind the curtain operating the smokes and mirrors. Constructing an application that works also has the feel of wizardry. Methods and techniques are modern-day spells. They are the basis by which we weave more complex magic. Thus it is true that any sufficiently advanced technology appears to be magic.</p>
-
-<h3>3) Impact is inevitable</h3>
-
-<p>Philosophy has tried to understand what are the most general truths we may know. Some critics say that philosophy has been ineffective because words are too fuzzy to allow for meaningful conclusions that have impact. For more, see: <a href="http://www.paulgraham.com/philosophy.html#f15n">Paul Graham&rsquo;s essay &lsquo;How to do Philosophy&rsquo;</a></p>
-
-<p>Coding is a relatively new discipline by which simple logic can affect the world &mdash; not by analyzing it to death, but by providing new capabilities and creations that cannot but affect the world around us.</p>
-
-<p>Taking in sum, the human intellect cannot but continue to express itself into reality. In this encounter with it, we all benefit. Truth becomes an apparent through creation. We know what is true, because we create it. And we cannot but create that which is not true.</p>
 ]]></content>
   </entry>
   
