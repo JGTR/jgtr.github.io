@@ -4,7 +4,7 @@
   <title><![CDATA[Coding Philosophical]]></title>
   <link href="http://jgtr.github.io/atom.xml" rel="self"/>
   <link href="http://jgtr.github.io/"/>
-  <updated>2013-06-12T00:40:39-04:00</updated>
+  <updated>2013-06-16T23:23:07-04:00</updated>
   <id>http://jgtr.github.io/</id>
   <author>
     <name><![CDATA[Jordán]]></name>
@@ -12,6 +12,161 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Immutability in Ruby applications]]></title>
+    <link href="http://jgtr.github.io/blog/2013/06/16/immutability-in-ruby-applications/"/>
+    <updated>2013-06-16T21:48:00-04:00</updated>
+    <id>http://jgtr.github.io/blog/2013/06/16/immutability-in-ruby-applications</id>
+    <content type="html"><![CDATA[<p>Looking through the programming presentations on <a href="www.speakerdeck.com">Speakerdeck</a> I found one created recently by Michael Fairley entitled <a href="http://speakerdeck.com/michaelfairley/immutable-ruby">Immutable Ruby</a>.</p>
+
+<p>Michael suggests a technique to ensure that information in an application which is thought of as unchangeable actually stays this way. There are plenty of transformations that can corrupt data, and so I agree that it is probably a good idea to be clear about what should be out of scope for manipulation.</p>
+
+<p>To this end, I will reproduce a few techniques that Michael Fairley puts forward in his presentation. The deck is actually quite long and covers a bunch of other interesting topics (such as: deep freeze with ice nine, and event sourcing), so for more depth please visit his presentation.</p>
+
+<h3>Creating an immutable module</h3>
+
+<p>Lets suppose you are running an online store where you have a purchases table that records previous purchases.The table might look like this:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Purchase</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="c1"># t.integer :user_id</span>
+</span><span class='line'>  <span class="c1"># t.integer :price</span>
+</span><span class='line'>  <span class="c1"># t.integer :item_id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There would be little reason to change this data, so it seems likely you would want to make it immutable to protect its integrity. Thus, it would be helpful to have an immutable module, like so:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Purchase</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Immutable</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To make an immutable module, only 5 lines of code are needed, as follows:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Module</span> <span class="no">Immutable</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">readonly?</span>
+</span><span class='line'>    <span class="n">persisted?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, if we try to update data on the purchases table, the change does not go through:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">purchase</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span> <span class="c1">#=&gt;</span>
+</span><span class='line'>  <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:ReadOnlyRecord</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Harnessing active_record with the immutable_attributes gem</h3>
+
+<p>Wouldn&rsquo;t it be great to control mutability on certain fields? The immutable_attributes gem allows this:
+<a href="http://github.com/JackDanger/immutable_attributes">github.com/JackDanger/immutable_attributes</a>
+<strong><em> gem install immutable_attributes </em></strong></p>
+
+<p>Now we can harness ActiveRecord to make the fields on the purchase table immutable, as follows:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Purchase</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">attr_immutable</span> <span class="ss">:user_id</span>
+</span><span class='line'>  <span class="n">attr_immutable</span> <span class="ss">:price</span>
+</span><span class='line'>  <span class="n">attr_immutable</span> <span class="ss">:item_id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Using the freeze method</h3>
+
+<h4>The problem</h4>
+
+<p>We might start with a method that will build a full url for a part of the application based on some params. This may look as follows:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">build_url</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{})</span>
+</span><span class='line'>  <span class="n">base</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;/&quot;</span> <span class="k">unless</span> <span class="n">path</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">base</span> <span class="o">&lt;&lt;</span> <span class="n">path</span>
+</span><span class='line'>  <span class="n">base</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">params</span><span class="o">.</span><span class="n">to_param</span> <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>  <span class="n">base</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">ROOT_URL</span> <span class="o">=</span> <span class="s2">&quot;http://example.com&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">example_url</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>  <span class="n">build_url</span><span class="p">(</span><span class="no">ROOT_URL</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Although this code may look like it works, in actuality it may generate some problems as follows:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">example_url</span><span class="p">(</span><span class="s2">&quot;blog&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;http://example.url/blog&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">example_url</span><span class="p">(</span><span class="s2">&quot;/photos&quot;</span><span class="p">,</span> <span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="s2">&quot;size&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;http://example.url/blog/photos?sort=size&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">example_url</span><span class="p">(</span><span class="s2">&quot;/photos&quot;</span><span class="p">,</span> <span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="s2">&quot;size&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;http://example.url/blog/photos?sort=size/photos?sort=size&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What is going on here? There is only one instance of the ROOT_URL being created, which is then passed into the build_url method over and over. In the build_url, the <strong>shovel operators (&lt;&lt;) are mutating this single instance of the string</strong>.</p>
+
+<h4>Fixes</h4>
+
+<p>One simple way to fix this would be to replace the &ldquo;&lt;&lt;&rdquo; with =+ in the code.</p>
+
+<p>A better way would be to use a freeze method on the ROOT_URL, forcing the application to raise an exception if the string would be mutated. this would look like this:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ROOT_URL</span> <span class="o">=</span> <span class="s2">&quot;http://example.com&quot;</span><span class="o">.</span><span class="n">freeze</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Sandi Metz at the Flatiron School]]></title>

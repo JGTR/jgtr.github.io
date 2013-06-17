@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Coding Philosophical</title>
+  <title>Immutability in Ruby applications - Coding Philosophical</title>
   <meta name="author" content="Jordán">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://jgtr.github.io">
+  <link rel="canonical" href="http://jgtr.github.io/blog/2013/06/16/immutability-in-ruby-applications">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Coding Philosophical" type="application/atom+xml">
@@ -63,15 +63,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/06/16/immutability-in-ruby-applications/">Immutability in Ruby Applications</a></h1>
+      <h1 class="entry-title">Immutability in Ruby Applications</h1>
     
     
       <p class="meta">
@@ -94,7 +91,7 @@
   </header>
 
 
-  <div class="entry-content"><p>Looking through the programming presentations on <a href="www.speakerdeck.com">Speakerdeck</a> I found one created recently by Michael Fairley entitled <a href="http://speakerdeck.com/michaelfairley/immutable-ruby">Immutable Ruby</a>.</p>
+<div class="entry-content"><p>Looking through the programming presentations on <a href="www.speakerdeck.com">Speakerdeck</a> I found one created recently by Michael Fairley entitled <a href="http://speakerdeck.com/michaelfairley/immutable-ruby">Immutable Ruby</a>.</p>
 
 <p>Michael suggests a technique to ensure that information in an application which is thought of as unchangeable actually stays this way. There are plenty of transformations that can corrupt data, and so I agree that it is probably a good idea to be clear about what should be out of scope for manipulation.</p>
 
@@ -242,89 +239,16 @@
 
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/11/sandi-metz-at-the-flatiron-school/">Sandi Metz at the Flatiron School</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Jordán</span></span>
 
-<time datetime="2013-06-11T15:18:00-04:00" pubdate data-updated="true">Jun 11<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://sandimetz.com/">Sandi Metz</a> came to the <a href="http://flatironschool.com">Flatiron School</a> on Tuesday, June 11, 2013.
-We were privileged to hear her talk with the group and answer questions very candidly. She spoke from 32 years of experience as a programmer. She was earnest and encouraging and left the class with much to admire and think about. The following are <em>just a few</em> of the topics she touched upon.</p>
-
-<h3>How Sandi got started as a programmer</h3>
-
-<p>Sandi Metz started by going to technical school. She considered architecture but was pointed in the direction of &ldquo;data processing&rdquo; which meant &ldquo;computer programming&rdquo;. It was 1979 and a friend told her &ldquo;I think you might be good at data processing&rdquo;. She decided to try it, finding herself late at night programming fortran  on punch cards. She was 19 at the time.</p>
-
-<h3>She was one of the first Rails users</h3>
-
-<h4>What made Rails special</h4>
-
-<p>Before frameworks like Rails, programmers would write massive XML files that would tell the application how to interact with the database. This is a nightmare to maintain and is a problem Rails solved. Rails uses ActiveRecord, which allows the application to intuitively interact with the data structure based on the class specifications. This makes Rails more intuitive and easier to work with. ActiveRecord made Rails stand-out for Sandi in 2006, even though it was an unproven framework.</p>
-
-<h4>History</h4>
-
-<p>At the time, Sandi worked for Duke University, Sandi decided to try rails because she wanted a dynamic language that was object-oriented. She heard Dave Thomas speak and decided to switch her mission-critical application from java to Ruby on Rails. She had no deployment plan and was saved by Zed Shaw&rsquo;s release of Mongrel &mdash; the first web server for Ruby web applications. Sandi spoke about how Zed Shaw stayed up all night to help her resolve a problem in production to meet her deadline. (It was an https bug!) She says, <em>&ldquo;He gave me the shirt of his back in a time when I was desperate, and I will never forget it.&rdquo;</em></p>
-
-<h3>Technology trends to watch for</h3>
-
-<p>She spoke briefly about two trends in programming that she is very excited about:
-1. Multiple-processing: This seems to be happening in functional languages, like pascal. It is something that she is curious to see if it will be implemented somehow in Rails.
-2. Micro-service architectures. This refers to a shift from writing large, separate and entirely unrelated applications, to writing small applications with the ability to communicate with each other. These would be in the cloud.</p>
-
-<h3>Embracing fear</h3>
-
-<p>Sandi was extremely humble and open in her demeanor. She encouraged everyone in the class to not take failure as a moral failure, but simply as a call to action to keep practicing and keep learning. She disclosed the areas where she still wants to improve, and advocated always feeling slightly stretched to keep learning and growing. She said, <em>&ldquo;Don&rsquo;t worry about being afraid. Don&rsquo;t feel like you are not good because you are afraid. Fear is a motivating thing. Embrace it.&rdquo;</em></p>
-
-<p>She referenced and recommended the book <a href="http://www.amazon.com/books/dp/1455509124">So Good They Can&rsquo;t Ignore You</a>. She mentioned the concept of &ldquo;deliberate practice&rdquo;, and not being afraid to fail. The key is to practice what you are uncomfortable with.</p>
-
-<h3>My personal reflection</h3>
-
-<p>Sandi is an inspiring down-to-earth figure. I think that the young generations are not frequently well-informed about the history of the industry. Having Sandi recount the experience living through these changes is definitely valuable both practically and from a human perspective. Anyone who develops skill in any field will at some point need to take responsibility for trying to give back to the community and trying to shape it for the better &mdash; Sandi sets a great example.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/11/reflections-after-7-days-of-coding/">Reflections After 7 Days of Coding</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -336,49 +260,40 @@ We were privileged to hear her talk with the group and answer questions very can
   
 
 
-<time datetime="2013-06-11T14:59:00-04:00" pubdate data-updated="true">Jun 11<span>th</span>, 2013</time>
-        
-      </p>
+<time datetime="2013-06-16T21:48:00-04:00" pubdate data-updated="true">Jun 16<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/immutability/'>immutability,</a>, <a class='category' href='/blog/categories/programming/'>programming,</a>, <a class='category' href='/blog/categories/ruby/'>ruby,</a>, <a class='category' href='/blog/categories/speakerdeck/'>speakerdeck</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>As a newcomer to the field of coding, I&rsquo;ve had several gut reactions:</p>
-
-<h3>1) Coding feels human</h3>
-
-<p>Non-coders frequently think of coding (as other technical disciplines) as far removed from other creative, artistic or expressive fields. We imagine dark rooms filled with the buzzing of servers.</p>
-
-<p>My immersion in it has proven the contrary: building anything is a fulfilling experience because it gives the architect the experience of going from nothing to something &mdash; it requires imagination.</p>
-
-<p>Debugging is like writing and struggling to find the right word.</p>
-
-<h3>2) There is magic in the code &mdash; really</h3>
-
-<p>As a child, I would wonder about the concept of magic. I thought it was a cool idea, but could never feel comfortable with the notion of &ldquo;abracadabra&rdquo; &mdash; that some specific words or gestures would do something inexplicable. These words or gestures themselves have no further atomizable operations and that just never make sense. Coding bridges this gap.</p>
-
-<p>Coding shows the methods behind the curtain operating the smokes and mirrors. Constructing an application that works also has the feel of wizardry. Methods and techniques are modern-day spells. They are the basis by which we weave more complex magic. Thus it is true that any sufficiently advanced technology appears to be magic.</p>
-
-<h3>3) Impact is inevitable</h3>
-
-<p>Philosophy has tried to understand what are the most general truths we may know. Some critics say that philosophy has been ineffective because words are too fuzzy to allow for meaningful conclusions that have impact. For more, see: <a href="http://www.paulgraham.com/philosophy.html#f15n">Paul Graham&rsquo;s essay &lsquo;How to do Philosophy&rsquo;</a></p>
-
-<p>Coding is a relatively new discipline by which simple logic can affect the world &mdash; not by analyzing it to death, but by providing new capabilities and creations that cannot but affect the world around us.</p>
-
-<p>Taking in sum, the human intellect cannot but continue to express itself into reality. In this encounter with it, we all benefit. Truth becomes apparent through creation. We know what is true, because we create it. And we can only create that which was always already true.</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jgtr.github.io/blog/2013/06/16/immutability-in-ruby-applications/" data-via="jordangtrevino" data-counturl="http://jgtr.github.io/blog/2013/06/16/immutability-in-ruby-applications/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/06/11/sandi-metz-at-the-flatiron-school/" title="Previous Post: Sandi Metz at the Flatiron School">&laquo; Sandi Metz at the Flatiron School</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -403,7 +318,7 @@ We were privileged to hear her talk with the group and answer questions very can
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/jgtr">@jgtr</a> on GitHub
@@ -435,6 +350,7 @@ We were privileged to hear her talk with the group and answer questions very can
 
   
 </aside>
+
 
     </div>
   </div>
