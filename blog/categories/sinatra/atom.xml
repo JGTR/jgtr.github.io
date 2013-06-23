@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sinatra, | Coding Philosophical]]></title>
+  <link href="http://jgtr.github.io/blog/categories/sinatra/atom.xml" rel="self"/>
+  <link href="http://jgtr.github.io/"/>
+  <updated>2013-06-23T17:31:11-04:00</updated>
+  <id>http://jgtr.github.io/</id>
+  <author>
+    <name><![CDATA[Jordán]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The stucture of a Sinatra App]]></title>
+    <link href="http://jgtr.github.io/blog/2013/06/23/the-stucture-of-a-sinatra-app/"/>
+    <updated>2013-06-23T16:07:00-04:00</updated>
+    <id>http://jgtr.github.io/blog/2013/06/23/the-stucture-of-a-sinatra-app</id>
+    <content type="html"><![CDATA[<p><a href="http://www.sinatrarb.com">Sinatra</a> is a framework built on Ruby to create web applications.</p>
+
+<p>In this post I want to outline how the codebase of a Sinatra application is organized, given that I will start building on Sinatra soon.</p>
+
+<h3>The Setup</h3>
+
+<p>First I have to find an interesting Sinatra app to analyze. There are several websites where lists of Sinatra apps can be browsed. I used the following sources:</p>
+
+<ul>
+<li><a href="http://www.sinatrarb.com/wild.html">Sinatra website</a></li>
+<li><a href="https://github.com/oren/sinatra-examples">Oren&rsquo;s Github Sinatra-examples repository</a></li>
+<li><a href="http://shopify.github.io/dashing/">Sinatra Dashboard App called Dashing</a></li>
+</ul>
+
+
+<p>I chose to focus on Dashing because it may prove useful on an app that my <a href="flatironschool.com">Flatiron School</a> team is working to build. (More on that later!)</p>
+
+<p>The instructions for setting up the app are relatively stratight-forward.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">dashing</span>
+</span><span class='line'><span class="err">$</span> <span class="n">dashing</span> <span class="kp">new</span> <span class="n">sweet_dashboard_project</span>
+</span><span class='line'><span class="err">$</span> <span class="n">bundle</span>
+</span><span class='line'><span class="err">$</span> <span class="n">dashing</span> <span class="n">start</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>With just these few lines on the command-line, the rack server gets going and shows a pretty &ldquo;dashing&rdquo; dashboard landing page.</p>
+
+<p>I then decided to post this to Heroku so it would be visible beyond my own localhost. To do this, I need to:</p>
+
+<ol>
+<li>install the Heroku gem</li>
+<li>make my &ldquo;sweet_dashboard_project&rdquo; a git repo</li>
+<li>create a Heroku app</li>
+<li>push the code to Heroku for deployment.</li>
+</ol>
+
+
+<p>All this is surprisingly easy, and only requires the following commands:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">heroku</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">init</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">am</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">first</span> <span class="n">commit</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="err">$</span> <span class="n">heroku</span> <span class="n">create</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">push</span> <span class="n">heroku</span> <span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now you can visit the resulting Dashing app here: <a href="http://secret-garden-3665.herokuapp.com/sample">Sample app</a></p>
+
+<h3>The codebase organization for Dashing</h3>
+
+<p>The codebase is organized into the following folders:</p>
+
+<ul>
+<li><strong>assets</strong> : includes sub-folders for fongs, images, javascript and stylesheets</li>
+<li><strong>dashboards</strong> : has the ERB files that render into HTML</li>
+<li><strong>jobs</strong> : has 4 ruby files that actually have the logic of the app &mdash; the ERB files from dashboard make ruby commands that access this code</li>
+<li><strong>lib</strong> empty directory; in other Sinatra apps, the lib</li>
+<li><strong>public</strong> contains the 404 error page and the favicon</li>
+<li><strong>widgets</strong> the other meaty folder besides the jobs; contains coffeescript, html and scss files for the dashboard widgets which are rendered into the layouts in the dashboards ERB files</li>
+</ul>
+
+
+<p>The other file of note is the config.ru in the root directory; this initializes the rack app.</p>
+
+<p>So basically, the <strong>views</strong> are in the dashboards, and this pulls logic from the jobs folder (<strong>controller of sorts</strong>), and draws formatting/browser behavior from the widgets folder.</p>
+
+<p>One notable missing element from this webapp is any need for a database / models. This is something which is necessary for most webapps and which I will have to incorporate into my Sinatra app to mold it to my purposes. More about that later!</p>
+]]></content>
+  </entry>
+  
+</feed>

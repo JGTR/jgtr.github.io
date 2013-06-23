@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The stucture of a Sinatra App - Coding Philosophical</title>
+  <meta name="author" content="Jordán">
+
+  
+  <meta name="description" content="Sinatra is a framework built on Ruby to create web applications. In this post I want to outline how the codebase of a Sinatra application is &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jgtr.github.io/blog/2013/06/23/the-stucture-of-a-sinatra-app">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding Philosophical" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding Philosophical</a></h1>
+  
+    <h2>"If there is a sense of reality, there must also be a sense of possibility" - Musil</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jgtr.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Stucture of a Sinatra App</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-23T16:07:00-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://www.sinatrarb.com">Sinatra</a> is a framework built on Ruby to create web applications.</p>
+
+<p>In this post I want to outline how the codebase of a Sinatra application is organized, given that I will start building on Sinatra soon.</p>
+
+<h3>The Setup</h3>
+
+<p>First I have to find an interesting Sinatra app to analyze. There are several websites where lists of Sinatra apps can be browsed. I used the following sources:</p>
+
+<ul>
+<li><a href="http://www.sinatrarb.com/wild.html">Sinatra website</a></li>
+<li><a href="https://github.com/oren/sinatra-examples">Oren&rsquo;s Github Sinatra-examples repository</a></li>
+<li><a href="http://shopify.github.io/dashing/">Sinatra Dashboard App called Dashing</a></li>
+</ul>
+
+
+<p>I chose to focus on Dashing because it may prove useful on an app that my <a href="flatironschool.com">Flatiron School</a> team is working to build. (More on that later!)</p>
+
+<p>The instructions for setting up the app are relatively stratight-forward.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">dashing</span>
+</span><span class='line'><span class="err">$</span> <span class="n">dashing</span> <span class="kp">new</span> <span class="n">sweet_dashboard_project</span>
+</span><span class='line'><span class="err">$</span> <span class="n">bundle</span>
+</span><span class='line'><span class="err">$</span> <span class="n">dashing</span> <span class="n">start</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With just these few lines on the command-line, the rack server gets going and shows a pretty &ldquo;dashing&rdquo; dashboard landing page.</p>
+
+<p>I then decided to post this to Heroku so it would be visible beyond my own localhost. To do this, I need to:</p>
+
+<ol>
+<li>install the Heroku gem</li>
+<li>make my &ldquo;sweet_dashboard_project&rdquo; a git repo</li>
+<li>create a Heroku app</li>
+<li>push the code to Heroku for deployment.</li>
+</ol>
+
+
+<p>All this is surprisingly easy, and only requires the following commands:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">heroku</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">init</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">am</span> <span class="s2">&quot;first commit&quot;</span>
+</span><span class='line'><span class="err">$</span> <span class="n">heroku</span> <span class="n">create</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">push</span> <span class="n">heroku</span> <span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can visit the resulting Dashing app here: <a href="http://secret-garden-3665.herokuapp.com/sample">Sample app</a></p>
+
+<h3>The codebase organization for Dashing</h3>
+
+<p>The codebase is organized into the following folders:</p>
+
+<ul>
+<li><strong>assets</strong> : includes sub-folders for fongs, images, javascript and stylesheets</li>
+<li><strong>dashboards</strong> : has the ERB files that render into HTML</li>
+<li><strong>jobs</strong> : has 4 ruby files that actually have the logic of the app &mdash; the ERB files from dashboard make ruby commands that access this code</li>
+<li><strong>lib</strong> empty directory; in other Sinatra apps, the lib</li>
+<li><strong>public</strong> contains the 404 error page and the favicon</li>
+<li><strong>widgets</strong> the other meaty folder besides the jobs; contains coffeescript, html and scss files for the dashboard widgets which are rendered into the layouts in the dashboards ERB files</li>
+</ul>
+
+
+<p>The other file of note is the config.ru in the root directory; this initializes the rack app.</p>
+
+<p>So basically, the <strong>views</strong> are in the dashboards, and this pulls logic from the jobs folder (<strong>controller of sorts</strong>), and draws formatting/browser behavior from the widgets folder.</p>
+
+<p>One notable missing element from this webapp is any need for a database / models. This is something which is necessary for most webapps and which I will have to incorporate into my Sinatra app to mold it to my purposes. More about that later!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jordán</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-23T16:07:00-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dashing/'>dashing,</a>, <a class='category' href='/blog/categories/heroku/'>heroku</a>, <a class='category' href='/blog/categories/ruby/'>ruby,</a>, <a class='category' href='/blog/categories/sinatra/'>sinatra,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jgtr.github.io/blog/2013/06/23/the-stucture-of-a-sinatra-app/" data-via="jordangtrevino" data-counturl="http://jgtr.github.io/blog/2013/06/23/the-stucture-of-a-sinatra-app/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/06/16/immutability-in-ruby-applications/" title="Previous Post: Immutability in Ruby applications">&laquo; Immutability in Ruby applications</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/06/23/the-stucture-of-a-sinatra-app/">The Stucture of a Sinatra App</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/16/immutability-in-ruby-applications/">Immutability in Ruby Applications</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/11/sandi-metz-at-the-flatiron-school/">Sandi Metz at the Flatiron School</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/11/reflections-after-7-days-of-coding/">Reflections After 7 Days of Coding</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jgtr">@jgtr</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jgtr',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Jordán -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
