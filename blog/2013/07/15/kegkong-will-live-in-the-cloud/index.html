@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: intelligence, - Coding Philosophical</title>
+  <title>KegKong will live in the cloud - Coding Philosophical</title>
   <meta name="author" content="Jordán">
 
   
-  <meta name="description" content="Category: intelligence,">
+  <meta name="description" content="Grumpycat productions presented our invention to the Rails meetup. Part of the presentation was a live demo. We had set it up so that we could show &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://jgtr.github.ioblog/categories/intelligence">
+  <link rel="canonical" href="http://jgtr.github.io/blog/2013/07/15/kegkong-will-live-in-the-cloud">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Coding Philosophical" type="application/atom+xml">
@@ -64,35 +64,100 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Intelligence,</h1>
+    
+      <h1 class="entry-title">KegKong Will Live in the Cloud</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-15T09:23:00-04:00" pubdate data-updated="true">Jul 15<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>Grumpycat productions presented our invention to the Rails meetup. Part of the presentation was a live demo.</p>
 
-  
-  <h2>2013</h2>
+<p>We had set it up so that we could show the flowmeter take live readings and lower the keg volume as the audience drank. However, when I clicked refresh, the browser waited unbearably long. I heard nervous whistling and felt myself sweat just a little bit. We went forward with the slides and when we returned to the website a few minutes later, the measurements had been taken and the website worked. Applause was heard and relief refreshed my nerves.</p>
 
-<article>
-  
-<h1><a href="/blog/2013/06/27/organic-systems/">Organic systems, the pursuit of artificial intelligence, and the internet</a></h1>
-<time datetime="2013-06-27T03:29:00-04:00" pubdate><span class='month'>Jun</span> <span class='day'>27</span> <span class='year'>2013</span></time>
+<p>We need the server to be faster.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ai/'>AI,</a>, <a class='category' href='/blog/categories/artificial/'>artificial</a>, <a class='category' href='/blog/categories/intelligence/'>intelligence,</a></span>
-</footer>
+<p>The solution will be to deploy to Heroku. This company makes it stunningly easy to deploy a website. At low scale it is free, and they only charge for added functionality such as webworkers, or for higher scale.</p>
 
+<p>Staging servers on Heroku arent that fast either, sometimes they take a moment to start-up, if the site has not been visited for the day. Yet this will be way more suitable than serving a website from a Raspberry Pi.</p>
 
-</article>
+<p>One of my main concerns is how to handle the database. Presently, the Raspberry Pi also hosts the database. In the future, this will likely also be hosted by Heroku. This will require us to shift away from sqlite3 and use either MySql or PosGres, which I have not used.</p>
 
+<p>Furthermore, I am not sure how it will work to have the Raspberry Pi write to a database that is in the cloud. Clearly we will need to setup authentication. Once we do that, and tell the program where to find its database, presumably the information will find its way to the database. I have my doubts as to whether this will be as reliable as having script, server and database on the same machine. However, it seems obvious that this issue is one that is solved for any functional websites, so I am confident we will be able to execute a solution.</p>
+
+<p>I will now try this solution and my next post will cover methods and results on the journey of relocating KegKong to his future cloudy habitat.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Jordán</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-15T09:23:00-04:00" pubdate data-updated="true">Jul 15<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/arduino/'>Arduino,</a>, <a class='category' href='/blog/categories/flatiron/'>Flatiron</a>, <a class='category' href='/blog/categories/kegkong/'>KegKong,</a>, <a class='category' href='/blog/categories/pi/'>Pi,</a>, <a class='category' href='/blog/categories/raspberry/'>Raspberry</a>, <a class='category' href='/blog/categories/school/'>School</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jgtr.github.io/blog/2013/07/15/kegkong-will-live-in-the-cloud/" data-via="jordangtrevino" data-counturl="http://jgtr.github.io/blog/2013/07/15/kegkong-will-live-in-the-cloud/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/06/27/organic-systems/" title="Previous Post: Organic systems, the pursuit of artificial intelligence, and the internet">&laquo; Organic systems, the pursuit of artificial intelligence, and the internet</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
