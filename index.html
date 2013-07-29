@@ -1,548 +1,74 @@
-
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Coding Philosophical</title>
+
+  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+       More info: h5bp.com/b/378 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title> Jordán</title>
   <meta name="author" content="Jordán">
-
-  
-  <meta name="description" content="Grumpycat productions presented our invention to the Rails meetup. Part of the presentation was a live demo. We had set it up so that we could show &hellip;">
   
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
   
-  <link rel="canonical" href="http://jgtr.github.io">
-  <link href="/favicon.png" rel="icon">
+  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+
+  <!-- CSS: implied media=all -->
+  <!-- CSS concatenated and minified via ant build script-->
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Coding Philosophical" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+  <!-- end CSS-->
 
-  
+  <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
+  <!-- All JavaScript at the bottom, except for Modernizr / Respond.
+       Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
+       For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
+  <script src="/javascripts/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Coding Philosophical</a></h1>
-  
-    <h2>"If there is a sense of reality, there must also be a sense of possibility" - Musil</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:jgtr.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/15/kegkong-will-live-in-the-cloud/">KegKong Will Live in the Cloud</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-15T09:23:00-04:00" pubdate data-updated="true">Jul 15<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Grumpycat productions presented our invention to the Rails meetup. Part of the presentation was a live demo.</p>
-
-<p>We had set it up so that we could show the flowmeter take live readings and lower the keg volume as the audience drank. However, when I clicked refresh, the browser waited unbearably long. I heard nervous whistling and felt myself sweat just a little bit. We went forward with the slides and when we returned to the website a few minutes later, the measurements had been taken and the website worked. Applause was heard and relief refreshed my nerves.</p>
-
-<p>We need the server to be faster.</p>
-
-<p>The solution will be to deploy to Heroku. This company makes it stunningly easy to deploy a website. At low scale it is free, and they only charge for added functionality such as webworkers, or for higher scale.</p>
-
-<p>Staging servers on Heroku arent that fast either, sometimes they take a moment to start-up, if the site has not been visited for the day. Yet this will be way more suitable than serving a website from a Raspberry Pi.</p>
-
-<p>One of my main concerns is how to handle the database. Presently, the Raspberry Pi also hosts the database. In the future, this will likely also be hosted by Heroku. This will require us to shift away from sqlite3 and use either MySql or PosGres, which I have not used.</p>
-
-<p>Furthermore, I am not sure how it will work to have the Raspberry Pi write to a database that is in the cloud. Clearly we will need to setup authentication. Once we do that, and tell the program where to find its database, presumably the information will find its way to the database. I have my doubts as to whether this will be as reliable as having script, server and database on the same machine. However, it seems obvious that this issue is one that is solved for any functional websites, so I am confident we will be able to execute a solution.</p>
-
-<p>I will now try this solution and my next post will cover methods and results on the journey of relocating KegKong to his future cloudy habitat.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/27/organic-systems/">Organic Systems, the Pursuit of Artificial Intelligence, and the Internet</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-27T03:29:00-04:00" pubdate data-updated="true">Jun 27<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>After four weeks of learning at the Flatiron School, we have been immersed in object oriented thinking, and now create classes and objects to develop simple web applications. Here is a code snippet of an app that generates student profiles programmatically from a sql database, which we previously scraped from a hard-coded HTML site using Nokogiri:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">StudentSite</span>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="ss">Sinatra</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class='line'>    <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="vi">@students</span> <span class="o">=</span> <span class="no">Student</span><span class="o">.</span><span class="n">all</span>
-</span><span class='line'>      <span class="n">erb</span> <span class="ss">:&#39;students/index&#39;</span><span class="p">,</span> <span class="ss">:layout</span> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">get</span> <span class="s1">&#39;/students&#39;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="vi">@students</span> <span class="o">=</span> <span class="no">Student</span><span class="o">.</span><span class="n">all</span>
-</span><span class='line'>      <span class="n">erb</span> <span class="ss">:&#39;students/index&#39;</span><span class="p">,</span> <span class="ss">:layout</span> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">get</span> <span class="s1">&#39;/students/new&#39;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">erb</span> <span class="ss">:&#39;newstudentform&#39;</span><span class="p">,</span> <span class="ss">:layout</span> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">get</span> <span class="s1">&#39;/students/:id&#39;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">student_id</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span>
-</span><span class='line'>      <span class="vi">@student</span> <span class="o">=</span> <span class="no">Student</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">student_id</span><span class="p">)</span>
-</span><span class='line'>      <span class="n">erb</span> <span class="ss">:&#39;students/student&#39;</span><span class="p">,</span> <span class="ss">:layout</span> <span class="o">=&gt;</span> <span class="kp">false</span>
-</span><span class='line'>    <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As my comfort with the concept and practice of object-oriented programming increases: my thoughts have drifted to a rather impractical notion (presently): the question of whether object oriented programming may be useful in the development of artificial intelligence systems and/or robotics.</p>
-
-<h3>Comparison to organic systems</h3>
-
-<p>Is it not true that living things move beyond the continuum from isolated components performing individual tasks (matter) to an object coordinating complex tasks over a layer of abstraction (the body), and finally a subject that learns to be aware of its own existence and place in a broader context and among other subjects (the mind/spirit of a person)?</p>
-
-<p>It is interesting to note that similarly, programming has made the jump from procedural code &mdash; a collection of logical fragments, to the construction of objects that send messages to other objects. The missing part, of course, is the ability to create true sentience that is aware of itself. Some speculate that the rise of AI is coming and the eventual singularity &mdash; and others (like myself) are more skeptical.</p>
-
-<p>For me, there are a few tentative thoughts that emerge from a consideration of animal / human intelligence and the striving to develop so-called artificial intelligence :</p>
-
-<ol>
-<li><p>We should learn from organic systems how to create functioning bodies: the key seems to be a modular organization. Thus, a human person emerges out of augmented parts shared with many other mammals, which in themselves have no relation to the intelligence which they make possible. An intestine processes nutrients, yet these &ldquo;objects&rdquo; do their job (methods) and provide their needed &ldquo;messages&rdquo; to the rest of the objects of the system.</p></li>
-<li><p>Organic systems are primarily pre-symbolic; hence much activity must happen beneath the &ldquo;conscious&rdquo; layer. A person is themselves an entity that is way more than the &ldquo;rational&rdquo; or &ldquo;intelligent&rdquo; layer. And paradoxically, the intelligence of a person is unaware of most of the &ldquo;operations&rdquo; of its own body. This sounds like objects sending messages in a dynamic system, whether glucose molecules, hormones, or flashes of neuron connectivity making-up a complex thought.</p></li>
-</ol>
-
-
-<h3>An emergent brain in the internet</h3>
-
-<p>The field of Artificial Intelligence seems to have emerged hand-in-hand with an obsession over logic and computations, and the belief that all facets of human intelligence could be reduced to logical operations. Now it has become apparent that while computers outperform humans in some tasks, they lag behind animals in something as organically simple as gracefully navigating an obstacle course. In this way, computers are not even &ldquo;smarter&rdquo; than animals; yet in other ways, they are smarter than any human.</p>
-
-<p>Not to be discouraged by the apparent slow progress, some proponents now turn to a &ldquo;meta-product&rdquo; to locate in it their ideas of the emergence of artificial intelligence. The academic/internet entrepreneur Jeff Stibel argues that the internet is like a fast-developing brain. He seems to suggest that out of this flurry of HTTP requests, intelligence can emerge. Certainly there is an element of truth in this statement. For example, Tim Berners-Lee, creator of the internet, gave an interview in which he mentioned there were more webpages in existence than neurons in a human brain. Certainly that is a remarkable fact.</p>
-
-<p>Another interesting thing about this proposition, is that really the internet does seem to emulate an organic structure much more than a computer program could. It is also modular in the sense that it operates as a series of physically real objects (severs and infrastructure), exchanging abstracted objects HTTP requests, which have some meaning beyond themselves &mdash; content of all types. As exciting as I find this idea, there are elements that are questionable.</p>
-
-<p>Is the internet really all that new? To what extent is it that different from a conversation held next to a fire in some cave thousands of years ago? Both events are the unfolding of meaning to different receivers. Whether the object is a packet of information or sound waves with meaning &mdash; the same communication seems to be taking place. It is true that technology has enabled this communication to happen on a different scale, to stretch over time, to exchange image and sound and video. But it is still just one big conversation.</p>
-
-<p>I think the unprecendented scale will have an impact. But can we be sure the impact of the internet will be unequivocally good? Now we can see photo after photo of cats,get blown away by online ads, peruse pornography, cast uninformed opinions, and lurk the nationally-bounded newsmedia. At the same time, internet users can rely on wikipedia, share real knowledge or information with many people, take an online course, and many other things.</p>
-
-<p>Thus, I am perhaps less optimistic that any premise of artificial intelligence may emerge from the soup of HTTP requests which model ordinary living. It is my opinion that the web not be fetishized into this abstracted entity of hope and desire (for political liberation, for commerce, to ground abstract academic theories) &mdash; but rather a tool that enriches human life. Hasn&rsquo;t this been the point all along?</p>
-
-<h3>Reining in the web to enrich life</h3>
-
-<p>One of the implicit assumptions about the quest for artificial intelligence is that humans are (terminally) intelligent at all. Clearly we have some intelligence &mdash; but is it the end? Edward de Bono has shown how thinking itself has software &mdash; and this software is somewhat deficient and can be developed and improved. I think the act of programming can serve as a discipline for thought &mdash; similarly, the web can become a tool for good thinking as well. We can quickly find information, and share it, and focus on the complex problems of managing large datasets. However, it still remains the responsibility of us users to become the architects of possibility in the internet.</p>
-
-<p>Programmers in particular, can build the infrastructure that makes good things possible: whether wikipedia, gittip, social ventures, and so on. But one thing we must not do, is rest on the laurels of a relatively instinct-driven, overstimulated patterns of behavior in the internet, and pretend that this will bring improvement or liberation by default.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/23/the-stucture-of-a-sinatra-app/">The Stucture of a Sinatra App</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-23T16:07:00-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.sinatrarb.com">Sinatra</a> is a framework built on Ruby to create web applications.</p>
-
-<p>In this post I want to outline how the codebase of a Sinatra application is organized, given that I will start building on Sinatra soon.</p>
-
-<h3>The Setup</h3>
-
-<p>First I have to find an interesting Sinatra app to analyze. There are several websites where lists of Sinatra apps can be browsed. I used the following sources:</p>
-
-<ul>
-<li><a href="http://www.sinatrarb.com/wild.html">Sinatra website</a></li>
-<li><a href="https://github.com/oren/sinatra-examples">Oren&rsquo;s Github Sinatra-examples repository</a></li>
-<li><a href="http://shopify.github.io/dashing/">Sinatra Dashboard App called Dashing</a></li>
-</ul>
-
-
-<p>I chose to focus on Dashing because it may prove useful on an app that my <a href="flatironschool.com">Flatiron School</a> team is working to build. (More on that later!)</p>
-
-<p>The instructions for setting up the app are relatively stratight-forward.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">dashing</span>
-</span><span class='line'><span class="err">$</span> <span class="n">dashing</span> <span class="kp">new</span> <span class="n">sweet_dashboard_project</span>
-</span><span class='line'><span class="err">$</span> <span class="n">bundle</span>
-</span><span class='line'><span class="err">$</span> <span class="n">dashing</span> <span class="n">start</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With just these few lines on the command-line, the rack server gets going and shows a pretty &ldquo;dashing&rdquo; dashboard landing page.</p>
-
-<p>I then decided to post this to Heroku so it would be visible beyond my own localhost. To do this, I need to:</p>
-
-<ol>
-<li>install the Heroku gem</li>
-<li>make my &ldquo;sweet_dashboard_project&rdquo; a git repo</li>
-<li>create a Heroku app</li>
-<li>push the code to Heroku for deployment.</li>
-</ol>
-
-
-<p>All this is surprisingly easy, and only requires the following commands:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">heroku</span>
-</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">init</span>
-</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
-</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">am</span> <span class="s2">&quot;first commit&quot;</span>
-</span><span class='line'><span class="err">$</span> <span class="n">heroku</span> <span class="n">create</span>
-</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">push</span> <span class="n">heroku</span> <span class="n">master</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now you can visit the resulting Dashing app here: <a href="http://secret-garden-3665.herokuapp.com/sample">Sample app</a></p>
-
-<h3>The codebase organization for Dashing</h3>
-
-<p>The codebase is organized into the following folders:</p>
-
-<ul>
-<li><strong>assets</strong> : includes sub-folders for fongs, images, javascript and stylesheets</li>
-<li><strong>dashboards</strong> : has the ERB files that render into HTML</li>
-<li><strong>jobs</strong> : has 4 ruby files that actually have the logic of the app &mdash; the ERB files from dashboard make ruby commands that access this code</li>
-<li><strong>lib</strong> empty directory; in other Sinatra apps, the lib</li>
-<li><strong>public</strong> contains the 404 error page and the favicon</li>
-<li><strong>widgets</strong> the other meaty folder besides the jobs; contains coffeescript, html and scss files for the dashboard widgets which are rendered into the layouts in the dashboards ERB files</li>
-</ul>
-
-
-<p>The other file of note is the config.ru in the root directory; this initializes the rack app.</p>
-
-<p>So basically, the <strong>views</strong> are in the dashboards, and this pulls logic from the jobs folder (<strong>controller of sorts</strong>), and draws formatting/browser behavior from the widgets folder.</p>
-
-<p>One notable missing element from this webapp is any need for a database / models. This is something which is necessary for most webapps and which I will have to incorporate into my Sinatra app to mold it to my purposes. More about that later!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/16/immutability-in-ruby-applications/">Immutability in Ruby Applications</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-16T21:48:00-04:00" pubdate data-updated="true">Jun 16<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Looking through the programming presentations on <a href="www.speakerdeck.com">Speakerdeck</a> I found one created recently by Michael Fairley entitled <a href="http://speakerdeck.com/michaelfairley/immutable-ruby">Immutable Ruby</a>.</p>
-
-<p>Michael suggests a technique to ensure that information in an application which is thought of as unchangeable actually stays this way. There are plenty of transformations that can corrupt data, and so I agree that it is probably a good idea to be clear about what should be out of scope for manipulation.</p>
-
-<p>To this end, I will reproduce a few techniques that Michael Fairley puts forward in his presentation. The deck is actually quite long and covers a bunch of other interesting topics (such as: deep freeze with ice nine, and event sourcing), so for more depth please visit his presentation.</p>
-
-<h3>Creating an immutable module</h3>
-
-<p>Lets suppose you are running an online store where you have a purchases table that records previous purchases.The table might look like this:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Purchase</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class='line'>  <span class="c1"># t.integer :user_id</span>
-</span><span class='line'>  <span class="c1"># t.integer :price</span>
-</span><span class='line'>  <span class="c1"># t.integer :item_id</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There would be little reason to change this data, so it seems likely you would want to make it immutable to protect its integrity. Thus, it would be helpful to have an immutable module, like so:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Purchase</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">Immutable</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To make an immutable module, only 5 lines of code are needed, as follows:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Module</span> <span class="no">Immutable</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">readonly?</span>
-</span><span class='line'>    <span class="n">persisted?</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now, if we try to update data on the purchases table, the change does not go through:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">purchase</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span> <span class="c1">#=&gt;</span>
-</span><span class='line'>  <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:ReadOnlyRecord</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Harnessing active_record with the immutable_attributes gem</h3>
-
-<p>Wouldn&rsquo;t it be great to control mutability on certain fields? The immutable_attributes gem allows this:
-<a href="http://github.com/JackDanger/immutable_attributes">github.com/JackDanger/immutable_attributes</a>
-<strong><em> gem install immutable_attributes </em></strong></p>
-
-<p>Now we can harness ActiveRecord to make the fields on the purchase table immutable, as follows:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Purchase</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class='line'>  <span class="n">attr_immutable</span> <span class="ss">:user_id</span>
-</span><span class='line'>  <span class="n">attr_immutable</span> <span class="ss">:price</span>
-</span><span class='line'>  <span class="n">attr_immutable</span> <span class="ss">:item_id</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Using the freeze method</h3>
-
-<h4>The problem</h4>
-
-<p>We might start with a method that will build a full url for a part of the application based on some params. This may look as follows:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">build_url</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{})</span>
-</span><span class='line'>  <span class="n">base</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;/&quot;</span> <span class="k">unless</span> <span class="n">path</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">base</span> <span class="o">&lt;&lt;</span> <span class="n">path</span>
-</span><span class='line'>  <span class="n">base</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">params</span><span class="o">.</span><span class="n">to_param</span> <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">present?</span>
-</span><span class='line'>  <span class="n">base</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">ROOT_URL</span> <span class="o">=</span> <span class="s2">&quot;http://example.com&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">example_url</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="p">{})</span>
-</span><span class='line'>  <span class="n">build_url</span><span class="p">(</span><span class="no">ROOT_URL</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Although this code may look like it works, in actuality it may generate some problems as follows:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">example_url</span><span class="p">(</span><span class="s2">&quot;blog&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="c1">#=&gt; &quot;http://example.url/blog&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">example_url</span><span class="p">(</span><span class="s2">&quot;/photos&quot;</span><span class="p">,</span> <span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="s2">&quot;size&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="c1">#=&gt; &quot;http://example.url/blog/photos?sort=size&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">example_url</span><span class="p">(</span><span class="s2">&quot;/photos&quot;</span><span class="p">,</span> <span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="s2">&quot;size&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="c1">#=&gt; &quot;http://example.url/blog/photos?sort=size/photos?sort=size&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What is going on here? There is only one instance of the ROOT_URL being created, which is then passed into the build_url method over and over. In the build_url, the <strong>shovel operators (&lt;&lt;) are mutating this single instance of the string</strong>.</p>
-
-<h4>Fixes</h4>
-
-<p>One simple way to fix this would be to replace the &ldquo;&lt;&lt;&rdquo; with =+ in the code.</p>
-
-<p>A better way would be to use a freeze method on the ROOT_URL, forcing the application to raise an exception if the string would be mutated. this would look like this:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ROOT_URL</span> <span class="o">=</span> <span class="s2">&quot;http://example.com&quot;</span><span class="o">.</span><span class="n">freeze</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<body>
+
+  <div id="container">
+    <header>
+    <img src="http://jgtr.github.io/images/header.png" alt="Ivan Jovanovic in search for the next abstraction" />
+    <h1>in search for the next abstraction</h1>
+    </header>
+    <div id="main" role="main">
+      <div id="personal">
+  <ul class="social">
+      <li>I put my code on <a href="https://github.com/ivanjovanovic">GitHub</a></li>
+      <li>I hang mostly on <a href="https://plus.google.com/104326220116699351892">Google+</a> and <a href="https://twitter.com/jordangtrevino">Twitter</a></li>
+      <li>I participate in organization of <a href="http://www.rhok.org" title="Random Hacks of Kindness">RHoK</a></li>
+      <li>I work at <a href="http://www.local.ch/en" title="Swiss PhoneBook">local.ch ag</a></li>
+  </ul>
+  <ul class="toolbox">
+    <li>You can grab my <a href="http://feeds.feedburner.com/IvanJovanovic">RSS Feed</a></li>
+  </ul>
+  <br style="clear:both;">
 
 </div>
-  
-  
+
+<h3>Posts</h3>
 
 
-    </article>
-  
-  
+
+  <article>
     <article>
+
+
+  <div class="article-read-more">
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/11/sandi-metz-at-the-flatiron-school/">Sandi Metz at the Flatiron School</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
 
 
 
@@ -551,65 +77,25 @@
   
 
 
-<time datetime="2013-06-11T15:18:00-04:00" pubdate data-updated="true">Jun 11<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
+
+<time datetime="2013-07-15T09:23:00-04:00" pubdate  data-updated="true" >Jul 15<span>th</span>, 2013</time>
+      <a rel="full-article" href="http://jgtr.github.io/blog/2013/07/15/kegkong-will-live-in-the-cloud/">KegKong will live in the cloud</a>
+    </p>
+  </div>
+
+</article>
 
 
-  <div class="entry-content"><p><a href="http://sandimetz.com/">Sandi Metz</a> came to the <a href="http://flatironschool.com">Flatiron School</a> on Tuesday, June 11, 2013.
-We were privileged to hear her talk with the group and answer questions very candidly. She spoke from 32 years of experience as a programmer. She was earnest and encouraging and left the class with much to admire and think about. The following are <em>just a few</em> of the topics she touched upon.</p>
-
-<h3>How Sandi got started as a programmer</h3>
-
-<p>Sandi Metz started by going to technical school. She considered architecture but was pointed in the direction of &ldquo;data processing&rdquo; which meant &ldquo;computer programming&rdquo;. It was 1979 and a friend told her &ldquo;I think you might be good at data processing&rdquo;. She decided to try it, finding herself late at night programming fortran  on punch cards. She was 19 at the time.</p>
-
-<h3>She was one of the first Rails users</h3>
-
-<h4>What made Rails special</h4>
-
-<p>Before frameworks like Rails, programmers would write massive XML files that would tell the application how to interact with the database. This is a nightmare to maintain and is a problem Rails solved. Rails uses ActiveRecord, which allows the application to intuitively interact with the data structure based on the class specifications. This makes Rails more intuitive and easier to work with. ActiveRecord made Rails stand-out for Sandi in 2006, even though it was an unproven framework.</p>
-
-<h4>History</h4>
-
-<p>At the time, Sandi worked for Duke University, Sandi decided to try rails because she wanted a dynamic language that was object-oriented. She heard Dave Thomas speak and decided to switch her mission-critical application from java to Ruby on Rails. She had no deployment plan and was saved by Zed Shaw&rsquo;s release of Mongrel &mdash; the first web server for Ruby web applications. Sandi spoke about how Zed Shaw stayed up all night to help her resolve a problem in production to meet her deadline. (It was an https bug!) She says, <em>&ldquo;He gave me the shirt of his back in a time when I was desperate, and I will never forget it.&rdquo;</em></p>
-
-<h3>Technology trends to watch for</h3>
-
-<p>She spoke briefly about two trends in programming that she is very excited about:
-1. Multiple-processing: This seems to be happening in functional languages, like pascal. It is something that she is curious to see if it will be implemented somehow in Rails.
-2. Micro-service architectures. This refers to a shift from writing large, separate and entirely unrelated applications, to writing small applications with the ability to communicate with each other. These would be in the cloud.</p>
-
-<h3>Embracing fear</h3>
-
-<p>Sandi was extremely humble and open in her demeanor. She encouraged everyone in the class to not take failure as a moral failure, but simply as a call to action to keep practicing and keep learning. She disclosed the areas where she still wants to improve, and advocated always feeling slightly stretched to keep learning and growing. She said, <em>&ldquo;Don&rsquo;t worry about being afraid. Don&rsquo;t feel like you are not good because you are afraid. Fear is a motivating thing. Embrace it.&rdquo;</em></p>
-
-<p>She referenced and recommended the book <a href="http://www.amazon.com/books/dp/1455509124">So Good They Can&rsquo;t Ignore You</a>. She mentioned the concept of &ldquo;deliberate practice&rdquo;, and not being afraid to fail. The key is to practice what you are uncomfortable with.</p>
-
-<h3>My personal reflection</h3>
-
-<p>Sandi is an inspiring down-to-earth figure. I think that the young generations are not frequently well-informed about the history of the industry. Having Sandi recount the experience living through these changes is definitely valuable both practically and from a human perspective. Anyone who develops skill in any field will at some point need to take responsibility for trying to give back to the community and trying to shape it for the better &mdash; Sandi sets a great example.</p>
-</div>
-  
-  
+  </article>
 
 
-    </article>
-  
-  
+  <article>
     <article>
+
+
+  <div class="article-read-more">
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/11/reflections-after-7-days-of-coding/">Reflections After 7 Days of Coding</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
 
 
 
@@ -618,138 +104,159 @@ We were privileged to hear her talk with the group and answer questions very can
   
 
 
-<time datetime="2013-06-11T14:59:00-04:00" pubdate data-updated="true">Jun 11<span>th</span>, 2013</time>
-        
-      </p>
+
+<time datetime="2013-06-27T03:29:00-04:00" pubdate  data-updated="true" >Jun 27<span>th</span>, 2013</time>
+      <a rel="full-article" href="http://jgtr.github.io/blog/2013/06/27/organic-systems/">Organic systems, the pursuit of artificial intelligence, and the internet</a>
+    </p>
+  </div>
+
+</article>
+
+
+  </article>
+
+
+  <article>
+    <article>
+
+
+  <div class="article-read-more">
+    <p class="meta">
+      
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-06-23T16:07:00-04:00" pubdate  data-updated="true" >Jun 23<span>rd</span>, 2013</time>
+      <a rel="full-article" href="http://jgtr.github.io/blog/2013/06/23/the-stucture-of-a-sinatra-app/">The stucture of a Sinatra App</a>
+    </p>
+  </div>
+
+</article>
+
+
+  </article>
+
+
+  <article>
+    <article>
+
+
+  <div class="article-read-more">
+    <p class="meta">
+      
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-06-16T21:48:00-04:00" pubdate  data-updated="true" >Jun 16<span>th</span>, 2013</time>
+      <a rel="full-article" href="http://jgtr.github.io/blog/2013/06/16/immutability-in-ruby-applications/">Immutability in Ruby applications</a>
+    </p>
+  </div>
+
+</article>
+
+
+  </article>
+
+
+  <article>
+    <article>
+
+
+  <div class="article-read-more">
+    <p class="meta">
+      
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-06-11T15:18:00-04:00" pubdate  data-updated="true" >Jun 11<span>th</span>, 2013</time>
+      <a rel="full-article" href="http://jgtr.github.io/blog/2013/06/11/sandi-metz-at-the-flatiron-school/">Sandi Metz at the Flatiron School</a>
+    </p>
+  </div>
+
+</article>
+
+
+  </article>
+
+
+  <article>
+    <article>
+
+
+  <div class="article-read-more">
+    <p class="meta">
+      
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-06-11T14:59:00-04:00" pubdate  data-updated="true" >Jun 11<span>th</span>, 2013</time>
+      <a rel="full-article" href="http://jgtr.github.io/blog/2013/06/11/reflections-after-7-days-of-coding/">Reflections after 7 days of coding</a>
+    </p>
+  </div>
+
+</article>
+
+
+  </article>
+
+<nav role="pagination">
+  <div>
     
-  </header>
-
-
-  <div class="entry-content"><p>As a newcomer to the field of coding, I&rsquo;ve had several gut reactions:</p>
-
-<h3>1) Coding feels human</h3>
-
-<p>Non-coders frequently think of coding (as other technical disciplines) as far removed from other creative, artistic or expressive fields. We imagine dark rooms filled with the buzzing of servers.</p>
-
-<p>My immersion in it has proven the contrary: building anything is a fulfilling experience because it gives the architect the experience of going from nothing to something &mdash; it requires imagination.</p>
-
-<p>Debugging is like writing and struggling to find the right word.</p>
-
-<h3>2) There is magic in the code &mdash; really</h3>
-
-<p>As a child, I would wonder about the concept of magic. I thought it was a cool idea, but could never feel comfortable with the notion of &ldquo;abracadabra&rdquo; &mdash; that some specific words or gestures would do something inexplicable. These words or gestures themselves have no further atomizable operations and that just never make sense. Coding bridges this gap.</p>
-
-<p>Coding shows the methods behind the curtain operating the smokes and mirrors. Constructing an application that works also has the feel of wizardry. Methods and techniques are modern-day spells. They are the basis by which we weave more complex magic. Thus it is true that any sufficiently advanced technology appears to be magic.</p>
-
-<h3>3) Impact is inevitable</h3>
-
-<p>Philosophy has tried to understand what are the most general truths we may know. Some critics say that philosophy has been ineffective because words are too fuzzy to allow for meaningful conclusions that have impact. For more, see: <a href="http://www.paulgraham.com/philosophy.html#f15n">Paul Graham&rsquo;s essay &lsquo;How to do Philosophy&rsquo;</a></p>
-
-<p>Coding is a relatively new discipline by which simple logic can affect the world &mdash; not by analyzing it to death, but by providing new capabilities and creations that cannot but affect the world around us.</p>
-
-<p>Taking in sum, the human intellect cannot but continue to express itself into reality. In this encounter with it, we all benefit. Truth becomes apparent through creation. We know what is true, because we create it. And we can only create that which was always already true.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
+    <a href="http://jgtr.github.io/archives">Blog Archives</a>
     
   </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/07/15/kegkong-will-live-in-the-cloud/">KegKong Will Live in the Cloud</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/27/organic-systems/">Organic Systems, the Pursuit of Artificial Intelligence, and the Internet</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/23/the-stucture-of-a-sinatra-app/">The Stucture of a Sinatra App</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/16/immutability-in-ruby-applications/">Immutability in Ruby Applications</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/11/sandi-metz-at-the-flatiron-school/">Sandi Metz at the Flatiron School</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/jgtr">@jgtr</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'jgtr',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-
-  
-</aside>
+</nav>
 
     </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Jordán -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+    <footer>
 
-</footer>
-  
+    </footer>
+  </div> <!--! end of #container -->
 
+    <!-- JavaScript at the bottom for fast page loading -->
 
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id; js.async = true;
-  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
 
 
+  <!-- scripts concatenated and minified via ant build script-->
+  <script defer src="/javascripts/app.js"></script>
+  <!-- end scripts-->
 
+	
 
+  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
+       chromium.org/developers/how-tos/chrome-frame-getting-started -->
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+ 
 
   <script type="text/javascript">
     (function(){
@@ -760,6 +267,8 @@ We were privileged to hear her talk with the group and answer questions very can
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>
+
+
 
 
 
