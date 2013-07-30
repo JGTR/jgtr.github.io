@@ -4,7 +4,7 @@
   <title><![CDATA[Category: sqlite3, | Coding Philosophical]]></title>
   <link href="http://jgtr.github.io/blog/categories/sqlite3/atom.xml" rel="self"/>
   <link href="http://jgtr.github.io/"/>
-  <updated>2013-07-30T00:49:50-04:00</updated>
+  <updated>2013-07-30T00:50:59-04:00</updated>
   <id>http://jgtr.github.io/</id>
   <author>
     <name><![CDATA[Jordán]]></name>
@@ -33,7 +33,7 @@
 
 <p>The natural evolution of development is to want to deploy to a server on the web and link the project to a meaningful domain name such as www.kegkong.com, by using a CNAME.</p>
 
-<p>(There is definitely a place for taking control of your server and using something like <a href="www.digitalocean.com">Digital Ocean</a>, however, <a href="www.heroku.com">Heroku</a> is my preferred service for quick deployment.)</p>
+<p>(There is definitely a place for taking control of your server and using something like <a href="http://www.digitalocean.com">Digital Ocean</a>, however, <a href="http://www.heroku.com">Heroku</a> is my preferred service for quick deployment.)</p>
 
 <p>One problem my teams have run into when trying to deploy to Heroku, is that Heroku no longer supports sqlite as a production database. This is troublesome because in the development of our projects, there is a significant amount of data that we have generated which we would like to maintain. This is also somewhat of an inconvenience because we have not been fully versed in the use of other more production-ready databases.</p>
 
