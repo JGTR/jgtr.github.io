@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails, | Coding Philosophical]]></title>
   <link href="http://jgtr.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://jgtr.github.io/"/>
-  <updated>2013-07-30T00:46:45-04:00</updated>
+  <updated>2013-07-30T00:48:57-04:00</updated>
   <id>http://jgtr.github.io/</id>
   <author>
     <name><![CDATA[Jordán]]></name>
@@ -27,6 +27,7 @@
 <ul>
 <li><a href="http://www.kegkong.com">Kegkong</a>: an Arduino-powered flow-meter for the Keg, with a Sinatra web-interface</li>
 <li><a href="http://vast-ravine-3721.herokuapp.com">InstaQuiz</a>: a Ruby on Rails web application to empower teachers and students to collaborate in the creation of class quizzes</li>
+<li><a href="http://www.missionapp.co">Mission</a>: The webpage of an iPhone app I have been working on, that will facilitate discovery and participation on Instagram photo contests.</li>
 </ul>
 
 
