@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rasperry | Coding Philosophical]]></title>
   <link href="http://jgtr.github.io/blog/categories/rasperry/atom.xml" rel="self"/>
   <link href="http://jgtr.github.io/"/>
-  <updated>2013-08-14T09:14:13-04:00</updated>
+  <updated>2013-08-16T19:54:38-04:00</updated>
   <id>http://jgtr.github.io/</id>
   <author>
     <name><![CDATA[Jordán]]></name>
@@ -69,12 +69,6 @@
 <span class='line-number'>33</span>
 <span class='line-number'>34</span>
 <span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;:adapter   =&amp;gt; &#39;sqlite3&#39;,</span>
@@ -95,12 +89,6 @@
 </span><span class='line'><span class="sr">   if pulses &gt; 300 &amp;amp;&amp;amp; pulses &amp;lt; 8000&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span> <span class="n">measurement</span> <span class="o">=</span> <span class="n">keg</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:pulses</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="p">,</span> <span class="ss">:change_in_volume</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="o">/</span><span class="mi">21198</span><span class="o">.</span><span class="mi">296</span><span class="p">)</span>
-</span><span class='line'> <span class="n">measurement</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>   <span class="k">if</span> <span class="n">pulses</span> <span class="o">&gt;</span> <span class="mi">70</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">pulses</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">8000</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt; measurement = keg.measurements.build(:pulses =&amp;gt; pulses, :change_in_volume =&amp;gt; pulses/</span><span class="mi">21198</span><span class="o">.</span><span class="mi">296</span><span class="p">)</span>
 </span><span class='line'> <span class="n">measurement</span><span class="o">.</span><span class="n">save</span>
 </span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
 </span><span class='line'>
