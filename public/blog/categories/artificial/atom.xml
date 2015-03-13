@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: artificial | Coding Philosophical]]></title>
+  <link href="http://jgtr.github.io/blog/categories/artificial/atom.xml" rel="self"/>
+  <link href="http://jgtr.github.io/"/>
+  <updated>2013-12-06T20:40:56-05:00</updated>
+  <id>http://jgtr.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Trevino]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Organic systems, the pursuit of artificial intelligence, and the internet]]></title>
+    <link href="http://jgtr.github.io/blog/2013/06/27/organic-systems/"/>
+    <updated>2013-06-27T03:29:00-04:00</updated>
+    <id>http://jgtr.github.io/blog/2013/06/27/organic-systems</id>
+    <content type="html"><![CDATA[<p>After four weeks of learning at the Flatiron School, we have been immersed in object oriented thinking, and now create classes and objects to develop simple web applications. Here is a code snippet of an app that generates student profiles programmatically from a sql database, which we previously scraped from a hard-coded HTML site using Nokogiri:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">StudentSite</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">App</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="ss">Sinatra</span><span class="p">:</span><span class="ss">:Base</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;get &#39;/</span><span class="s1">&#39; do</span>
+</span><span class='line'><span class="s1">  @students = Student.all</span>
+</span><span class='line'><span class="s1">  erb :&#39;</span><span class="n">students</span><span class="o">/</span><span class="n">index</span><span class="s1">&#39;, :layout =&amp;gt; true</span>
+</span><span class='line'><span class="s1">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">get &#39;</span><span class="o">/</span><span class="n">students</span><span class="s1">&#39; do</span>
+</span><span class='line'><span class="s1">  @students = Student.all</span>
+</span><span class='line'><span class="s1">  erb :&#39;</span><span class="n">students</span><span class="o">/</span><span class="n">index</span><span class="s1">&#39;, :layout =&amp;gt; true</span>
+</span><span class='line'><span class="s1">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">get &#39;</span><span class="o">/</span><span class="n">students</span><span class="o">/</span><span class="kp">new</span><span class="s1">&#39; do  </span>
+</span><span class='line'><span class="s1">  erb :&#39;</span><span class="n">newstudentform</span><span class="s1">&#39;, :layout =&amp;gt; true</span>
+</span><span class='line'><span class="s1">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">get &#39;</span><span class="o">/</span><span class="n">students</span><span class="o">/</span><span class="ss">:id</span><span class="s1">&#39; do</span>
+</span><span class='line'><span class="s1">  student_id = params[:id]</span>
+</span><span class='line'><span class="s1">  @student = Student.find(student_id)</span>
+</span><span class='line'><span class="s1">  erb :&#39;</span><span class="n">students</span><span class="o">/</span><span class="n">student</span><span class="err">&#39;</span><span class="p">,</span> <span class="ss">:layout</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kp">false</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>As my comfort with the concept and practice of object-oriented programming increases: my thoughts have drifted to a rather impractical notion (presently): the question of whether object oriented programming may be useful in the development of artificial intelligence systems and/or robotics.</p>
+
+<h3>Comparison to organic systems</h3>
+
+<p>Is it not true that living things move beyond the continuum from isolated components performing individual tasks (matter) to an object coordinating complex tasks over a layer of abstraction (the body), and finally a subject that learns to be aware of its own existence and place in a broader context and among other subjects (the mind/spirit of a person)?</p>
+
+<p>It is interesting to note that similarly, programming has made the jump from procedural code &mdash; a collection of logical fragments, to the construction of objects that send messages to other objects. The missing part, of course, is the ability to create true sentience that is aware of itself. Some speculate that the rise of AI is coming and the eventual singularity &mdash; and others (like myself) are more skeptical.</p>
+
+<p>For me, there are a few tentative thoughts that emerge from a consideration of animal / human intelligence and the striving to develop so-called artificial intelligence :</p>
+
+<ol>
+<li><p>We should learn from organic systems how to create functioning bodies: the key seems to be a modular organization. Thus, a human person emerges out of augmented parts shared with many other mammals, which in themselves have no relation to the intelligence which they make possible. An intestine processes nutrients, yet these &ldquo;objects&rdquo; do their job (methods) and provide their needed &ldquo;messages&rdquo; to the rest of the objects of the system.</p></li>
+<li><p>Organic systems are primarily pre-symbolic; hence much activity must happen beneath the &ldquo;conscious&rdquo; layer. A person is themselves an entity that is way more than the &ldquo;rational&rdquo; or &ldquo;intelligent&rdquo; layer. And paradoxically, the intelligence of a person is unaware of most of the &ldquo;operations&rdquo; of its own body. This sounds like objects sending messages in a dynamic system, whether glucose molecules, hormones, or flashes of neuron connectivity making-up a complex thought.</p></li>
+</ol>
+
+
+<h3>An emergent brain in the internet</h3>
+
+<p>The field of Artificial Intelligence seems to have emerged hand-in-hand with an obsession over logic and computations, and the belief that all facets of human intelligence could be reduced to logical operations. Now it has become apparent that while computers outperform humans in some tasks, they lag behind animals in something as organically simple as gracefully navigating an obstacle course. In this way, computers are not even &ldquo;smarter&rdquo; than animals; yet in other ways, they are smarter than any human.</p>
+
+<p>Not to be discouraged by the apparent slow progress, some proponents now turn to a &ldquo;meta-product&rdquo; to locate in it their ideas of the emergence of artificial intelligence. The academic/internet entrepreneur Jeff Stibel argues that the internet is like a fast-developing brain. He seems to suggest that out of this flurry of HTTP requests, intelligence can emerge. Certainly there is an element of truth in this statement. For example, Tim Berners-Lee, creator of the internet, gave an interview in which he mentioned there were more webpages in existence than neurons in a human brain. Certainly that is a remarkable fact.</p>
+
+<p>Another interesting thing about this proposition, is that really the internet does seem to emulate an organic structure much more than a computer program could. It is also modular in the sense that it operates as a series of physically real objects (severs and infrastructure), exchanging abstracted objects HTTP requests, which have some meaning beyond themselves &mdash; content of all types. As exciting as I find this idea, there are elements that are questionable.</p>
+
+<p>Is the internet really all that new? To what extent is it that different from a conversation held next to a fire in some cave thousands of years ago? Both events are the unfolding of meaning to different receivers. Whether the object is a packet of information or sound waves with meaning &mdash; the same communication seems to be taking place. It is true that technology has enabled this communication to happen on a different scale, to stretch over time, to exchange image and sound and video. But it is still just one big conversation.</p>
+
+<p>I think the unprecendented scale will have an impact. But can we be sure the impact of the internet will be unequivocally good? Now we can see photo after photo of cats,get blown away by online ads, peruse pornography, cast uninformed opinions, and lurk the nationally-bounded newsmedia. At the same time, internet users can rely on wikipedia, share real knowledge or information with many people, take an online course, and many other things.</p>
+
+<p>Thus, I am perhaps less optimistic that any premise of artificial intelligence may emerge from the soup of HTTP requests which model ordinary living. It is my opinion that the web not be fetishized into this abstracted entity of hope and desire (for political liberation, for commerce, to ground abstract academic theories) &mdash; but rather a tool that enriches human life. Hasn&rsquo;t this been the point all along?</p>
+
+<h3>Reining in the web to enrich life</h3>
+
+<p>One of the implicit assumptions about the quest for artificial intelligence is that humans are (terminally) intelligent at all. Clearly we have some intelligence &mdash; but is it the end? Edward de Bono has shown how thinking itself has software &mdash; and this software is somewhat deficient and can be developed and improved. I think the act of programming can serve as a discipline for thought &mdash; similarly, the web can become a tool for good thinking as well. We can quickly find information, and share it, and focus on the complex problems of managing large datasets. However, it still remains the responsibility of us users to become the architects of possibility in the internet.</p>
+
+<p>Programmers in particular, can build the infrastructure that makes good things possible: whether wikipedia, gittip, social ventures, and so on. But one thing we must not do, is rest on the laurels of a relatively instinct-driven, overstimulated patterns of behavior in the internet, and pretend that this will bring improvement or liberation by default.</p>
+]]></content>
+  </entry>
+  
+</feed>

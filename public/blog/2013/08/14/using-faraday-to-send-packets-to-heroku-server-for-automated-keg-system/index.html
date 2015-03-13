@@ -1,0 +1,273 @@
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+       More info: h5bp.com/b/378 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="apple-itunes-app" content="app-id=683864286, affiliate-data=myAffiliateData, app-argument=myURL">
+  <meta name="description" content="Jordan Trevino is a Ruby on Rails developer, entrepreneur, Flatiron School and Yale University graduate.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Using Faraday to connect Keg to Heroku server |  Jordan Trevino</title>
+  <meta name="author" content="Jordan Trevino">
+  
+
+  
+  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+
+  <!-- CSS: implied media=all -->
+  <!-- CSS concatenated and minified via ant build script-->
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+  <!-- end CSS-->
+
+  <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
+
+  <!-- All JavaScript at the bottom, except for Modernizr / Respond.
+       Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
+       For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
+  <script src="/javascripts/libs/modernizr-2.0.6.min.js"></script>
+</head>
+
+<body id="post">
+
+  <div id="container">
+    <header>
+    <a href="http://jgtr.github.io">Home</a>
+</header>
+
+    <article>
+
+
+  <h1 class="article-title">Using Faraday to Connect Keg to Heroku Server</h1>
+  <div class="article-content"><h3>The automated keg system has improved and is now in the cloud</h3>
+
+<p>For the automated keg system known as kegkong, my team and I have shown a progression from machine-dependent to web-enabled.</p>
+
+<p>We have rendered the pipes between Heroku servers and the thirsty class of ruby developers at the Flatiron School, nerves like the very tissue to communicate organic impulses from limb to brain of a beer-providing titan known as KegKong.</p>
+
+<p>The refinement of our methods has enabled a simplification of our code, which has been pleasant, at the very stride by which we come closer to spawning beer-mania upon the world.</p>
+
+<p>KegKong may not be quite a robot, but he is well on his way to being a king of beer pouring. On second thought, KegKong doesnt pour beer, he judges you mercilessly as you serve yourself from his splendor.</p>
+
+<h3>Original code</h3>
+
+<p>Here is code that previously enabled KegKong to keep track of incessant pouring. This would run in the script on the Raspberry Pi, listening for the stirring of the beer as betrayed by pulses from the Arduino.</p>
+
+<p>It was difficult to get this to work because of the need to establish a database connection and active record in the same script with which we are listening from inputs from the Arduino.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span>
+</span><span class='line'>    <span class="ss">:adapter</span>   <span class="o">=&gt;</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:database</span>  <span class="o">=&gt;</span> <span class="s1">&#39;./database.db&#39;</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sp</span> <span class="o">=</span> <span class="no">SerialPort</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">port_str</span><span class="p">,</span> <span class="n">baud_rate</span><span class="p">,</span> <span class="n">data_bits</span><span class="p">,</span> <span class="n">stop_bits</span><span class="p">,</span> <span class="n">parity</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">keg</span> <span class="o">=</span> <span class="no">Keg</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'><span class="n">keg</span><span class="o">.</span><span class="n">email_status</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'><span class="n">keg</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="kp">true</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">keg</span> <span class="o">=</span> <span class="no">Keg</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'>   <span class="n">pulses</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">gets</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">to_i</span>
+</span><span class='line'>   <span class="k">if</span> <span class="n">pulses</span> <span class="o">&gt;</span> <span class="mi">300</span> <span class="o">&amp;&amp;</span> <span class="n">pulses</span> <span class="o">&lt;</span> <span class="mi">8000</span>
+</span><span class='line'>     <span class="n">measurement</span> <span class="o">=</span> <span class="n">keg</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:pulses</span> <span class="o">=&gt;</span> <span class="n">pulses</span><span class="p">,</span> <span class="ss">:change_in_volume</span> <span class="o">=&gt;</span> <span class="n">pulses</span><span class="o">/</span><span class="mi">21198</span><span class="o">.</span><span class="mi">296</span><span class="p">)</span>
+</span><span class='line'>     <span class="n">measurement</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>   <span class="k">end</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">!</span><span class="n">keg</span><span class="o">.</span><span class="n">email_status</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">keg</span><span class="o">.</span><span class="n">check_volume</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">keg</span><span class="o">.</span><span class="n">max_volume</span> <span class="o">*</span> <span class="mi">0</span><span class="o">.</span><span class="mi">25</span><span class="p">))</span>
+</span><span class='line'>      <span class="n">keg</span><span class="o">.</span><span class="n">send_email</span>
+</span><span class='line'>      <span class="n">keg</span><span class="o">.</span><span class="n">email_status</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>      <span class="n">keg</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sp</span><span class="o">.</span><span class="n">close</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>New solution</h3>
+
+<p>Here is the new code that sends measurements through pipes to our army of listening machine-bots known as servers. Thanks to Blake for helping us arrive at the Faraday gem, after failing to use Typhoeus for the same purpose!</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">port_str</span> <span class="o">=</span> <span class="s2">&quot;/dev/ttyACM0&quot;</span>
+</span><span class='line'><span class="n">baud_rate</span> <span class="o">=</span> <span class="mi">9600</span>
+</span><span class='line'><span class="n">data_bits</span> <span class="o">=</span> <span class="mi">8</span>
+</span><span class='line'><span class="n">stop_bits</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">parity</span> <span class="o">=</span> <span class="ss">SerialPort</span><span class="p">:</span><span class="ss">:NONE</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sp</span> <span class="o">=</span> <span class="no">SerialPort</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">port_str</span><span class="p">,</span> <span class="n">baud_rate</span><span class="p">,</span> <span class="n">data_bits</span><span class="p">,</span> <span class="n">stop_bits</span><span class="p">,</span> <span class="n">parity</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="kp">true</span> <span class="k">do</span>
+</span><span class='line'>   <span class="n">pulses</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">gets</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="k">if</span> <span class="n">pulses</span> <span class="o">&gt;</span> <span class="mi">300</span> <span class="o">&amp;&amp;</span> <span class="n">pulses</span> <span class="o">&lt;</span> <span class="mi">8000</span>
+</span><span class='line'>     <span class="n">conn</span> <span class="o">=</span> <span class="no">Faraday</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:url</span> <span class="o">=&gt;</span> <span class="s1">&#39;http://www.kegkong.com&#39;</span><span class="p">)</span>
+</span><span class='line'>     <span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/here&quot;</span><span class="p">,</span> <span class="p">{</span><span class="ss">:pulses</span> <span class="o">=&gt;</span> <span class="n">pulses</span><span class="p">,</span> <span class="ss">:change_in_volume</span> <span class="o">=&gt;</span> <span class="n">pulses</span><span class="o">/</span><span class="mi">21198</span><span class="o">.</span><span class="mi">296</span><span class="p">})</span>
+</span><span class='line'>   <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sp</span><span class="o">.</span><span class="n">close</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>On the Sinatra controller side, we had to build a new route to listen for the packet transmission:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>    <span class="n">post</span> <span class="s1">&#39;/here&#39;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="c1">#keg.email_status = false</span>
+</span><span class='line'>      <span class="vi">@keg</span> <span class="o">=</span> <span class="no">Keg</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'>      <span class="n">pulses</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:pulses</span><span class="o">].</span><span class="n">to_i</span>
+</span><span class='line'>      <span class="n">change_in_volume</span> <span class="o">=</span> <span class="n">pulses</span><span class="o">/</span><span class="mi">21198</span><span class="o">.</span><span class="mi">296</span>
+</span><span class='line'>      <span class="vi">@keg</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:pulses</span> <span class="o">=&gt;</span> <span class="n">pulses</span><span class="p">,</span> <span class="ss">:change_in_volume</span> <span class="o">=&gt;</span> <span class="n">change_in_volume</span><span class="p">)</span>
+</span><span class='line'>      <span class="vi">@keg</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="o">!</span><span class="vi">@keg</span><span class="o">.</span><span class="n">email_status</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="vi">@keg</span><span class="o">.</span><span class="n">check_volume</span> <span class="o">&lt;</span> <span class="p">(</span><span class="vi">@keg</span><span class="o">.</span><span class="n">max_volume</span> <span class="o">*</span> <span class="mi">0</span><span class="o">.</span><span class="mi">25</span><span class="p">))</span>
+</span><span class='line'>        <span class="vi">@keg</span><span class="o">.</span><span class="n">send_email</span>
+</span><span class='line'>        <span class="vi">@keg</span><span class="o">.</span><span class="n">email_status</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>        <span class="vi">@keg</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Next steps</h3>
+
+<p>We are not presently handling transmission failure should the internet be down or we experience some other issue. We can build that by listening for the http request responses, and storing the packet for later transmission should the transmission not at first succeed.</p>
+</div>
+  <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jgtr.github.io/blog/2013/08/14/using-faraday-to-send-packets-to-heroku-server-for-automated-keg-system/" data-via="jg_tr" data-counturl="http://jgtr.github.io/blog/2013/08/14/using-faraday-to-send-packets-to-heroku-server-for-automated-keg-system/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+</div>
+
+  
+
+</article>
+
+
+        <footer>
+
+    </footer>
+
+  </div>
+
+    <!-- JavaScript at the bottom for fast page loading -->
+
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+
+  <!-- scripts concatenated and minified via ant build script-->
+  <script defer src="/javascripts/app.js"></script>
+  <!-- end scripts-->
+
+	
+
+  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
+       chromium.org/developers/how-tos/chrome-frame-getting-started -->
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+ 
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
+

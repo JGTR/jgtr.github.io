@@ -1,0 +1,201 @@
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+       More info: h5bp.com/b/378 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="apple-itunes-app" content="app-id=683864286, affiliate-data=myAffiliateData, app-argument=myURL">
+  <meta name="description" content="Jordan Trevino is a Ruby on Rails developer, entrepreneur, Flatiron School and Yale University graduate.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>The stucture of a Sinatra App |  Jordan Trevino</title>
+  <meta name="author" content="Jordan Trevino">
+  
+
+  
+  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+
+  <!-- CSS: implied media=all -->
+  <!-- CSS concatenated and minified via ant build script-->
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+  <!-- end CSS-->
+
+  <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
+
+  <!-- All JavaScript at the bottom, except for Modernizr / Respond.
+       Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
+       For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
+  <script src="/javascripts/libs/modernizr-2.0.6.min.js"></script>
+</head>
+
+<body id="post">
+
+  <div id="container">
+    <header>
+    <a href="http://jgtr.github.io">Home</a>
+</header>
+
+    <article>
+
+
+  <h1 class="article-title">The Stucture of a Sinatra App</h1>
+  <div class="article-content"><p><a href="http://www.sinatrarb.com">Sinatra</a> is a framework built on Ruby to create web applications.</p>
+
+<p>In this post I want to outline how the codebase of a Sinatra application is organized, given that I will start building on Sinatra soon.</p>
+
+<h3>The Setup</h3>
+
+<p>First I have to find an interesting Sinatra app to analyze. There are several websites where lists of Sinatra apps can be browsed. I used the following sources:</p>
+
+<ul>
+<li><a href="http://www.sinatrarb.com/wild.html">Sinatra website</a></li>
+<li><a href="https://github.com/oren/sinatra-examples">Oren&rsquo;s Github Sinatra-examples repository</a></li>
+<li><a href="http://shopify.github.io/dashing/">Sinatra Dashboard App called Dashing</a></li>
+</ul>
+
+
+<p>I chose to focus on Dashing because it may prove useful on an app that my <a href="flatironschool.com">Flatiron School</a> team is working to build. (More on that later!)</p>
+
+<p>The instructions for setting up the app are relatively stratight-forward.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">dashing</span>
+</span><span class='line'><span class="err">$</span> <span class="n">dashing</span> <span class="kp">new</span> <span class="n">sweet_dashboard_project</span>
+</span><span class='line'><span class="err">$</span> <span class="n">bundle</span>
+</span><span class='line'><span class="err">$</span> <span class="n">dashing</span> <span class="n">start</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With just these few lines on the command-line, the rack server gets going and shows a pretty &ldquo;dashing&rdquo; dashboard landing page.</p>
+
+<p>I then decided to post this to Heroku so it would be visible beyond my own localhost. To do this, I need to:</p>
+
+<ol>
+<li>install the Heroku gem</li>
+<li>make my &ldquo;sweet_dashboard_project&rdquo; a git repo</li>
+<li>create a Heroku app</li>
+<li>push the code to Heroku for deployment.</li>
+</ol>
+
+
+<p>All this is surprisingly easy, and only requires the following commands:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">heroku</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">init</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">am</span> <span class="s2">&quot;first commit&quot;</span>
+</span><span class='line'><span class="err">$</span> <span class="n">heroku</span> <span class="n">create</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">push</span> <span class="n">heroku</span> <span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can visit the resulting Dashing app here: <a href="http://secret-garden-3665.herokuapp.com/sample">Sample app</a></p>
+
+<h3>The codebase organization for Dashing</h3>
+
+<p>The codebase is organized into the following folders:</p>
+
+<ul>
+<li><strong>assets</strong> : includes sub-folders for fongs, images, javascript and stylesheets</li>
+<li><strong>dashboards</strong> : has the ERB files that render into HTML</li>
+<li><strong>jobs</strong> : has 4 ruby files that actually have the logic of the app &mdash; the ERB files from dashboard make ruby commands that access this code</li>
+<li><strong>lib</strong> empty directory; in other Sinatra apps, the lib</li>
+<li><strong>public</strong> contains the 404 error page and the favicon</li>
+<li><strong>widgets</strong> the other meaty folder besides the jobs; contains coffeescript, html and scss files for the dashboard widgets which are rendered into the layouts in the dashboards ERB files</li>
+</ul>
+
+
+<p>The other file of note is the config.ru in the root directory; this initializes the rack app.</p>
+
+<p>So basically, the <strong>views</strong> are in the dashboards, and this pulls logic from the jobs folder (<strong>controller of sorts</strong>), and draws formatting/browser behavior from the widgets folder.</p>
+
+<p>One notable missing element from this webapp is any need for a database / models. This is something which is necessary for most webapps and which I will have to incorporate into my Sinatra app to mold it to my purposes. More about that later!</p>
+</div>
+  <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jgtr.github.io/blog/2013/06/23/the-stucture-of-a-sinatra-app/" data-via="jg_tr" data-counturl="http://jgtr.github.io/blog/2013/06/23/the-stucture-of-a-sinatra-app/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+</div>
+
+  
+
+</article>
+
+
+        <footer>
+
+    </footer>
+
+  </div>
+
+    <!-- JavaScript at the bottom for fast page loading -->
+
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+
+  <!-- scripts concatenated and minified via ant build script-->
+  <script defer src="/javascripts/app.js"></script>
+  <!-- end scripts-->
+
+	
+
+  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
+       chromium.org/developers/how-tos/chrome-frame-getting-started -->
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+ 
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby, | Coding Philosophical]]></title>
+  <link href="http://jgtr.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://jgtr.github.io/"/>
+  <updated>2013-12-06T20:40:56-05:00</updated>
+  <id>http://jgtr.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Trevino]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Using Faraday to connect Keg to Heroku server]]></title>
+    <link href="http://jgtr.github.io/blog/2013/08/14/using-faraday-to-send-packets-to-heroku-server-for-automated-keg-system/"/>
+    <updated>2013-08-14T09:00:00-04:00</updated>
+    <id>http://jgtr.github.io/blog/2013/08/14/using-faraday-to-send-packets-to-heroku-server-for-automated-keg-system</id>
+    <content type="html"><![CDATA[<h3>The automated keg system has improved and is now in the cloud</h3>
+
+<p>For the automated keg system known as kegkong, my team and I have shown a progression from machine-dependent to web-enabled.</p>
+
+<p>We have rendered the pipes between Heroku servers and the thirsty class of ruby developers at the Flatiron School, nerves like the very tissue to communicate organic impulses from limb to brain of a beer-providing titan known as KegKong.</p>
+
+<p>The refinement of our methods has enabled a simplification of our code, which has been pleasant, at the very stride by which we come closer to spawning beer-mania upon the world.</p>
+
+<p>KegKong may not be quite a robot, but he is well on his way to being a king of beer pouring. On second thought, KegKong doesnt pour beer, he judges you mercilessly as you serve yourself from his splendor.</p>
+
+<h3>Original code</h3>
+
+<p>Here is code that previously enabled KegKong to keep track of incessant pouring. This would run in the script on the Raspberry Pi, listening for the stirring of the beer as betrayed by pulses from the Arduino.</p>
+
+<p>It was difficult to get this to work because of the need to establish a database connection and active record in the same script with which we are listening from inputs from the Arduino.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;:adapter   =&amp;gt; &#39;sqlite3&#39;,</span>
+</span><span class='line'><span class="sr">:database  =&amp;gt; &#39;./</span><span class="n">database</span><span class="o">.</span><span class="n">db</span><span class="err">&#39;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="p">)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">keg</span> <span class="o">=</span> <span class="no">Keg</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'><span class="n">keg</span><span class="o">.</span><span class="n">email_status</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'><span class="n">keg</span><span class="o">.</span><span class="n">save</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;while true do</span>
+</span><span class='line'><span class="sr">  keg = Keg.last</span>
+</span><span class='line'><span class="sr">   pulses = sp.gets(&amp;ldquo;\r\n&amp;rdquo;).chomp.split(&amp;lsquo;:&amp;rsquo;)[1].to_i</span>
+</span><span class='line'><span class="sr">   if pulses &gt; 300 &amp;amp;&amp;amp; pulses &amp;lt; 8000&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span> <span class="n">measurement</span> <span class="o">=</span> <span class="n">keg</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:pulses</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="p">,</span> <span class="ss">:change_in_volume</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="o">/</span><span class="mi">21198</span><span class="o">.</span><span class="mi">296</span><span class="p">)</span>
+</span><span class='line'> <span class="n">measurement</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>   <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;if !keg.email_status &amp;amp;&amp;amp; (keg.check_volume &amp;lt; (keg.max_volume * 0.25))</span>
+</span><span class='line'><span class="sr">  keg.send_email</span>
+</span><span class='line'><span class="sr">  keg.email_status = true</span>
+</span><span class='line'><span class="sr">  keg.save</span>
+</span><span class='line'><span class="sr">end</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">sp</span><span class="o">.</span><span class="n">close</span> <span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>New solution</h3>
+
+<p>Here is the new code that sends measurements through pipes to our army of listening machine-bots known as servers. Thanks to Blake for helping us arrive at the Faraday gem, after failing to use Typhoeus for the same purpose!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">port_str</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">ttyACM0</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">baud_rate</span> <span class="o">=</span> <span class="mi">9600</span>
+</span><span class='line'><span class="n">data_bits</span> <span class="o">=</span> <span class="mi">8</span>
+</span><span class='line'><span class="n">stop_bits</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">parity</span> <span class="o">=</span> <span class="ss">SerialPort</span><span class="p">:</span><span class="ss">:NONE</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="k">while</span> <span class="kp">true</span> <span class="k">do</span>
+</span><span class='line'>   <span class="n">pulses</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">gets</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;\</span><span class="n">r</span><span class="p">\</span><span class="n">n</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="ss">:&amp;</span><span class="n">rsquo</span><span class="p">;)</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">to_i</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;   if pulses &gt; 300 &amp;amp;&amp;amp; pulses &amp;lt; 8000&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span> <span class="n">conn</span> <span class="o">=</span> <span class="no">Faraday</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:url</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="s1">&#39;http://www.kegkong.com&#39;</span><span class="p">)</span>
+</span><span class='line'> <span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/here&quot;</span><span class="p">,</span> <span class="p">{</span><span class="ss">:pulses</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="p">,</span> <span class="ss">:change_in_volume</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="o">/</span><span class="mi">21198</span><span class="o">.</span><span class="mi">296</span><span class="p">})</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>   <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">sp</span><span class="o">.</span><span class="n">close</span> <span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>On the Sinatra controller side, we had to build a new route to listen for the packet transmission:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;post &#39;/</span><span class="n">here</span><span class="err">&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1">#keg.email_status = false</span>
+</span><span class='line'>  <span class="vi">@keg</span> <span class="o">=</span> <span class="no">Keg</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'>  <span class="n">pulses</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:pulses</span><span class="o">].</span><span class="n">to_i</span>
+</span><span class='line'>  <span class="n">change_in_volume</span> <span class="o">=</span> <span class="n">pulses</span><span class="o">/</span><span class="mi">21198</span><span class="o">.</span><span class="mi">296</span>
+</span><span class='line'>  <span class="vi">@keg</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:pulses</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="p">,</span> <span class="ss">:change_in_volume</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">change_in_volume</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@keg</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="o">!</span><span class="vi">@keg</span><span class="o">.</span><span class="n">email_status</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="p">(</span><span class="vi">@keg</span><span class="o">.</span><span class="n">check_volume</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="p">(</span><span class="vi">@keg</span><span class="o">.</span><span class="n">max_volume</span> <span class="o">*</span> <span class="mi">0</span><span class="o">.</span><span class="mi">25</span><span class="p">))</span>
+</span><span class='line'>    <span class="vi">@keg</span><span class="o">.</span><span class="n">send_email</span>
+</span><span class='line'>    <span class="vi">@keg</span><span class="o">.</span><span class="n">email_status</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="vi">@keg</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Next steps</h3>
+
+<p>We are not presently handling transmission failure should the internet be down or we experience some other issue. We can build that by listening for the http request responses, and storing the packet for later transmission should the transmission not at first succeed.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The stucture of a Sinatra App]]></title>
+    <link href="http://jgtr.github.io/blog/2013/06/23/the-stucture-of-a-sinatra-app/"/>
+    <updated>2013-06-23T16:07:00-04:00</updated>
+    <id>http://jgtr.github.io/blog/2013/06/23/the-stucture-of-a-sinatra-app</id>
+    <content type="html"><![CDATA[<p><a href="http://www.sinatrarb.com">Sinatra</a> is a framework built on Ruby to create web applications.</p>
+
+<p>In this post I want to outline how the codebase of a Sinatra application is organized, given that I will start building on Sinatra soon.</p>
+
+<h3>The Setup</h3>
+
+<p>First I have to find an interesting Sinatra app to analyze. There are several websites where lists of Sinatra apps can be browsed. I used the following sources:</p>
+
+<ul>
+<li><a href="http://www.sinatrarb.com/wild.html">Sinatra website</a></li>
+<li><a href="https://github.com/oren/sinatra-examples">Oren&rsquo;s Github Sinatra-examples repository</a></li>
+<li><a href="http://shopify.github.io/dashing/">Sinatra Dashboard App called Dashing</a></li>
+</ul>
+
+
+<p>I chose to focus on Dashing because it may prove useful on an app that my <a href="flatironschool.com">Flatiron School</a> team is working to build. (More on that later!)</p>
+
+<p>The instructions for setting up the app are relatively stratight-forward.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">dashing</span>
+</span><span class='line'><span class="err">$</span> <span class="n">dashing</span> <span class="kp">new</span> <span class="n">sweet_dashboard_project</span>
+</span><span class='line'><span class="err">$</span> <span class="n">bundle</span>
+</span><span class='line'><span class="err">$</span> <span class="n">dashing</span> <span class="n">start</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>With just these few lines on the command-line, the rack server gets going and shows a pretty &ldquo;dashing&rdquo; dashboard landing page.</p>
+
+<p>I then decided to post this to Heroku so it would be visible beyond my own localhost. To do this, I need to:</p>
+
+<ol>
+<li>install the Heroku gem</li>
+<li>make my &ldquo;sweet_dashboard_project&rdquo; a git repo</li>
+<li>create a Heroku app</li>
+<li>push the code to Heroku for deployment.</li>
+</ol>
+
+
+<p>All this is surprisingly easy, and only requires the following commands:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">heroku</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">init</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">am</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">first</span> <span class="n">commit</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="err">$</span> <span class="n">heroku</span> <span class="n">create</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">push</span> <span class="n">heroku</span> <span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now you can visit the resulting Dashing app here: <a href="http://secret-garden-3665.herokuapp.com/sample">Sample app</a></p>
+
+<h3>The codebase organization for Dashing</h3>
+
+<p>The codebase is organized into the following folders:</p>
+
+<ul>
+<li><strong>assets</strong> : includes sub-folders for fongs, images, javascript and stylesheets</li>
+<li><strong>dashboards</strong> : has the ERB files that render into HTML</li>
+<li><strong>jobs</strong> : has 4 ruby files that actually have the logic of the app &mdash; the ERB files from dashboard make ruby commands that access this code</li>
+<li><strong>lib</strong> empty directory; in other Sinatra apps, the lib</li>
+<li><strong>public</strong> contains the 404 error page and the favicon</li>
+<li><strong>widgets</strong> the other meaty folder besides the jobs; contains coffeescript, html and scss files for the dashboard widgets which are rendered into the layouts in the dashboards ERB files</li>
+</ul>
+
+
+<p>The other file of note is the config.ru in the root directory; this initializes the rack app.</p>
+
+<p>So basically, the <strong>views</strong> are in the dashboards, and this pulls logic from the jobs folder (<strong>controller of sorts</strong>), and draws formatting/browser behavior from the widgets folder.</p>
+
+<p>One notable missing element from this webapp is any need for a database / models. This is something which is necessary for most webapps and which I will have to incorporate into my Sinatra app to mold it to my purposes. More about that later!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Immutability in Ruby applications]]></title>
+    <link href="http://jgtr.github.io/blog/2013/06/16/immutability-in-ruby-applications/"/>
+    <updated>2013-06-16T21:48:00-04:00</updated>
+    <id>http://jgtr.github.io/blog/2013/06/16/immutability-in-ruby-applications</id>
+    <content type="html"><![CDATA[<p>Looking through the programming presentations on <a href="www.speakerdeck.com">Speakerdeck</a> I found one created recently by Michael Fairley entitled <a href="http://speakerdeck.com/michaelfairley/immutable-ruby">Immutable Ruby</a>.</p>
+
+<p>Michael suggests a technique to ensure that information in an application which is thought of as unchangeable actually stays this way. There are plenty of transformations that can corrupt data, and so I agree that it is probably a good idea to be clear about what should be out of scope for manipulation.</p>
+
+<p>To this end, I will reproduce a few techniques that Michael Fairley puts forward in his presentation. The deck is actually quite long and covers a bunch of other interesting topics (such as: deep freeze with ice nine, and event sourcing), so for more depth please visit his presentation.</p>
+
+<h3>Creating an immutable module</h3>
+
+<p>Lets suppose you are running an online store where you have a purchases table that records previous purchases.The table might look like this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Purchase</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="c1"># t.integer :user_id</span>
+</span><span class='line'>  <span class="c1"># t.integer :price</span>
+</span><span class='line'>  <span class="c1"># t.integer :item_id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>There would be little reason to change this data, so it seems likely you would want to make it immutable to protect its integrity. Thus, it would be helpful to have an immutable module, like so:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Purchase</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Immutable</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>To make an immutable module, only 5 lines of code are needed, as follows:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Module</span> <span class="no">Immutable</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">readonly?</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;persisted?</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
+</span><span class='line'><span class="sr">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now, if we try to update data on the purchases table, the change does not go through:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">purchase</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hellip</span><span class="p">;)</span> <span class="c1">#=&gt;</span>
+</span><span class='line'>  <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:ReadOnlyRecord</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Harnessing active_record with the immutable_attributes gem</h3>
+
+<p>Wouldn&rsquo;t it be great to control mutability on certain fields? The immutable_attributes gem allows this:
+<a href="http://github.com/JackDanger/immutable_attributes">github.com/JackDanger/immutable_attributes</a>
+<strong><em> gem install immutable_attributes </em></strong></p>
+
+<p>Now we can harness ActiveRecord to make the fields on the purchase table immutable, as follows:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Purchase</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">attr_immutable</span> <span class="ss">:user_id</span>
+</span><span class='line'>  <span class="n">attr_immutable</span> <span class="ss">:price</span>
+</span><span class='line'>  <span class="n">attr_immutable</span> <span class="ss">:item_id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Using the freeze method</h3>
+
+<h4>The problem</h4>
+
+<p>We might start with a method that will build a full url for a part of the application based on some params. This may look as follows:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">build_url</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{})</span>
+</span><span class='line'>  <span class="n">base</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">/&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="k">unless</span> <span class="n">path</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="o">/&amp;</span><span class="n">rsquo</span><span class="p">;)</span>
+</span><span class='line'>  <span class="n">base</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">path</span>
+</span><span class='line'>  <span class="n">base</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;?</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="o">+</span> <span class="n">params</span><span class="o">.</span><span class="n">to_param</span> <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>  <span class="n">base</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;ROOT_URL = &amp;ldquo;&lt;a href=&quot;http:/</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="s2">&quot;&gt;http://example.com&lt;/a&gt;&amp;rdquo;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;def example_url(path, params = {})</span>
+</span><span class='line'><span class="s2">  build_url(ROOT_URL, path, params)</span>
+</span><span class='line'><span class="s2">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Although this code may look like it works, in actuality it may generate some problems as follows:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">example_url</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">blog</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;=&gt; &amp;ldquo;&lt;a href=&quot;http:/</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">url</span><span class="o">/</span><span class="n">blog</span><span class="s2">&quot;&gt;http://example.url/blog&lt;/a&gt;&amp;rdquo;&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;example_url(&amp;ldquo;/photos&amp;rdquo;, :sort =&gt; &amp;ldquo;size&amp;rdquo;)&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;h1&gt;=&gt; &amp;ldquo;&lt;a href=&quot;</span><span class="ss">http</span><span class="p">:</span><span class="sr">//ex</span><span class="n">ample</span><span class="o">.</span><span class="n">url</span><span class="o">/</span><span class="n">blog</span><span class="o">/</span><span class="n">photos?sort</span><span class="o">=</span><span class="n">size</span><span class="s2">&quot;&gt;http://example.url/blog/photos?sort=size&lt;/a&gt;&amp;rdquo;&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;example_url(&amp;ldquo;/photos&amp;rdquo;, :sort =&gt; &amp;ldquo;size&amp;rdquo;)&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;h1&gt;=&gt; &amp;ldquo;&lt;a href=&quot;</span><span class="ss">http</span><span class="p">:</span><span class="sr">//ex</span><span class="n">ample</span><span class="o">.</span><span class="n">url</span><span class="o">/</span><span class="n">blog</span><span class="o">/</span><span class="n">photos?sort</span><span class="o">=</span><span class="n">size</span><span class="o">/</span><span class="n">photos?sort</span><span class="o">=</span><span class="n">size</span><span class="s2">&quot;&gt;http://example.url/blog/photos?sort=size/photos?sort=size&lt;/a&gt;&amp;rdquo;&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>What is going on here? There is only one instance of the ROOT_URL being created, which is then passed into the build_url method over and over. In the build_url, the <strong>shovel operators (&lt;&lt;) are mutating this single instance of the string</strong>.</p>
+
+<h4>Fixes</h4>
+
+<p>One simple way to fix this would be to replace the &ldquo;&lt;&lt;&rdquo; with =+ in the code.</p>
+
+<p>A better way would be to use a freeze method on the ROOT_URL, forcing the application to raise an exception if the string would be mutated. this would look like this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ROOT_URL</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;http://example.com&quot;</span><span class="o">&gt;</span><span class="ss">http</span><span class="p">:</span><span class="sr">//ex</span><span class="n">ample</span><span class="o">.</span><span class="n">com</span><span class="o">&lt;</span><span class="sr">/a&gt;&amp;rdquo;.freeze</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

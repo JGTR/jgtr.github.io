@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: School | Coding Philosophical]]></title>
+  <link href="http://jgtr.github.io/blog/categories/school/atom.xml" rel="self"/>
+  <link href="http://jgtr.github.io/"/>
+  <updated>2013-12-06T20:40:56-05:00</updated>
+  <id>http://jgtr.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Trevino]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[KegKong will live in the cloud]]></title>
+    <link href="http://jgtr.github.io/blog/2013/07/15/kegkong-will-live-in-the-cloud/"/>
+    <updated>2013-07-15T09:23:00-04:00</updated>
+    <id>http://jgtr.github.io/blog/2013/07/15/kegkong-will-live-in-the-cloud</id>
+    <content type="html"><![CDATA[<p>Grumpycat productions presented our invention to the Rails meetup. Part of the presentation was a live demo.</p>
+
+<p>We had set it up so that we could show the flowmeter take live readings and lower the keg volume as the audience drank. However, when I clicked refresh, the browser waited unbearably long. I heard nervous whistling and felt myself sweat just a little bit. We went forward with the slides and when we returned to the website a few minutes later, the measurements had been taken and the website worked. Applause was heard and relief refreshed my nerves.</p>
+
+<p>We need the server to be faster.</p>
+
+<p>The solution will be to deploy to Heroku. This company makes it stunningly easy to deploy a website. At low scale it is free, and they only charge for added functionality such as webworkers, or for higher scale.</p>
+
+<p>Staging servers on Heroku arent that fast either, sometimes they take a moment to start-up, if the site has not been visited for the day. Yet this will be way more suitable than serving a website from a Raspberry Pi.</p>
+
+<p>One of my main concerns is how to handle the database. Presently, the Raspberry Pi also hosts the database. In the future, this will likely also be hosted by Heroku. This will require us to shift away from sqlite3 and use either MySql or PosGres, which I have not used.</p>
+
+<p>Furthermore, I am not sure how it will work to have the Raspberry Pi write to a database that is in the cloud. Clearly we will need to setup authentication. Once we do that, and tell the program where to find its database, presumably the information will find its way to the database. I have my doubts as to whether this will be as reliable as having script, server and database on the same machine. However, it seems obvious that this issue is one that is solved for any functional websites, so I am confident we will be able to execute a solution.</p>
+
+<p>I will now try this solution and my next post will cover methods and results on the journey of relocating KegKong to his future cloudy habitat.</p>
+]]></content>
+  </entry>
+  
+</feed>

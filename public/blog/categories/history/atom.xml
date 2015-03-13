@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: history, | Coding Philosophical]]></title>
+  <link href="http://jgtr.github.io/blog/categories/history/atom.xml" rel="self"/>
+  <link href="http://jgtr.github.io/"/>
+  <updated>2013-12-06T20:40:56-05:00</updated>
+  <id>http://jgtr.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Trevino]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Sandi Metz at the Flatiron School]]></title>
+    <link href="http://jgtr.github.io/blog/2013/06/11/sandi-metz-at-the-flatiron-school/"/>
+    <updated>2013-06-11T15:18:00-04:00</updated>
+    <id>http://jgtr.github.io/blog/2013/06/11/sandi-metz-at-the-flatiron-school</id>
+    <content type="html"><![CDATA[<p><a href="http://sandimetz.com/">Sandi Metz</a> came to the <a href="http://flatironschool.com">Flatiron School</a> on Tuesday, June 11, 2013.
+We were privileged to hear her talk with the group and answer questions very candidly. She spoke from 32 years of experience as a programmer. She was earnest and encouraging and left the class with much to admire and think about. The following are <em>just a few</em> of the topics she touched upon.</p>
+
+<h3>How Sandi got started as a programmer</h3>
+
+<p>Sandi Metz started by going to technical school. She considered architecture but was pointed in the direction of &ldquo;data processing&rdquo; which meant &ldquo;computer programming&rdquo;. It was 1979 and a friend told her &ldquo;I think you might be good at data processing&rdquo;. She decided to try it, finding herself late at night programming fortran  on punch cards. She was 19 at the time.</p>
+
+<h3>She was one of the first Rails users</h3>
+
+<h4>What made Rails special</h4>
+
+<p>Before frameworks like Rails, programmers would write massive XML files that would tell the application how to interact with the database. This is a nightmare to maintain and is a problem Rails solved. Rails uses ActiveRecord, which allows the application to intuitively interact with the data structure based on the class specifications. This makes Rails more intuitive and easier to work with. ActiveRecord made Rails stand-out for Sandi in 2006, even though it was an unproven framework.</p>
+
+<h4>History</h4>
+
+<p>At the time, Sandi worked for Duke University, Sandi decided to try rails because she wanted a dynamic language that was object-oriented. She heard Dave Thomas speak and decided to switch her mission-critical application from java to Ruby on Rails. She had no deployment plan and was saved by Zed Shaw&rsquo;s release of Mongrel &mdash; the first web server for Ruby web applications. Sandi spoke about how Zed Shaw stayed up all night to help her resolve a problem in production to meet her deadline. (It was an https bug!) She says, <em>&ldquo;He gave me the shirt of his back in a time when I was desperate, and I will never forget it.&rdquo;</em></p>
+
+<h3>Technology trends to watch for</h3>
+
+<p>She spoke briefly about two trends in programming that she is very excited about:
+1. Multiple-processing: This seems to be happening in functional languages, like pascal. It is something that she is curious to see if it will be implemented somehow in Rails.
+2. Micro-service architectures. This refers to a shift from writing large, separate and entirely unrelated applications, to writing small applications with the ability to communicate with each other. These would be in the cloud.</p>
+
+<h3>Embracing fear</h3>
+
+<p>Sandi was extremely humble and open in her demeanor. She encouraged everyone in the class to not take failure as a moral failure, but simply as a call to action to keep practicing and keep learning. She disclosed the areas where she still wants to improve, and advocated always feeling slightly stretched to keep learning and growing. She said, <em>&ldquo;Don&rsquo;t worry about being afraid. Don&rsquo;t feel like you are not good because you are afraid. Fear is a motivating thing. Embrace it.&rdquo;</em></p>
+
+<p>She referenced and recommended the book <a href="http://www.amazon.com/books/dp/1455509124">So Good They Can&rsquo;t Ignore You</a>. She mentioned the concept of &ldquo;deliberate practice&rdquo;, and not being afraid to fail. The key is to practice what you are uncomfortable with.</p>
+
+<h3>My personal reflection</h3>
+
+<p>Sandi is an inspiring down-to-earth figure. I think that the young generations are not frequently well-informed about the history of the industry. Having Sandi recount the experience living through these changes is definitely valuable both practically and from a human perspective. Anyone who develops skill in any field will at some point need to take responsibility for trying to give back to the community and trying to shape it for the better &mdash; Sandi sets a great example.</p>
+]]></content>
+  </entry>
+  
+</feed>

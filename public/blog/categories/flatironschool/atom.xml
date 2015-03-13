@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: flatironschool, | Coding Philosophical]]></title>
+  <link href="http://jgtr.github.io/blog/categories/flatironschool/atom.xml" rel="self"/>
+  <link href="http://jgtr.github.io/"/>
+  <updated>2013-12-06T20:40:56-05:00</updated>
+  <id>http://jgtr.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Trevino]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Using Faraday to connect Keg to Heroku server]]></title>
+    <link href="http://jgtr.github.io/blog/2013/08/14/using-faraday-to-send-packets-to-heroku-server-for-automated-keg-system/"/>
+    <updated>2013-08-14T09:00:00-04:00</updated>
+    <id>http://jgtr.github.io/blog/2013/08/14/using-faraday-to-send-packets-to-heroku-server-for-automated-keg-system</id>
+    <content type="html"><![CDATA[<h3>The automated keg system has improved and is now in the cloud</h3>
+
+<p>For the automated keg system known as kegkong, my team and I have shown a progression from machine-dependent to web-enabled.</p>
+
+<p>We have rendered the pipes between Heroku servers and the thirsty class of ruby developers at the Flatiron School, nerves like the very tissue to communicate organic impulses from limb to brain of a beer-providing titan known as KegKong.</p>
+
+<p>The refinement of our methods has enabled a simplification of our code, which has been pleasant, at the very stride by which we come closer to spawning beer-mania upon the world.</p>
+
+<p>KegKong may not be quite a robot, but he is well on his way to being a king of beer pouring. On second thought, KegKong doesnt pour beer, he judges you mercilessly as you serve yourself from his splendor.</p>
+
+<h3>Original code</h3>
+
+<p>Here is code that previously enabled KegKong to keep track of incessant pouring. This would run in the script on the Raspberry Pi, listening for the stirring of the beer as betrayed by pulses from the Arduino.</p>
+
+<p>It was difficult to get this to work because of the need to establish a database connection and active record in the same script with which we are listening from inputs from the Arduino.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;:adapter   =&amp;gt; &#39;sqlite3&#39;,</span>
+</span><span class='line'><span class="sr">:database  =&amp;gt; &#39;./</span><span class="n">database</span><span class="o">.</span><span class="n">db</span><span class="err">&#39;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="p">)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">keg</span> <span class="o">=</span> <span class="no">Keg</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'><span class="n">keg</span><span class="o">.</span><span class="n">email_status</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'><span class="n">keg</span><span class="o">.</span><span class="n">save</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;while true do</span>
+</span><span class='line'><span class="sr">  keg = Keg.last</span>
+</span><span class='line'><span class="sr">   pulses = sp.gets(&amp;ldquo;\r\n&amp;rdquo;).chomp.split(&amp;lsquo;:&amp;rsquo;)[1].to_i</span>
+</span><span class='line'><span class="sr">   if pulses &gt; 300 &amp;amp;&amp;amp; pulses &amp;lt; 8000&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span> <span class="n">measurement</span> <span class="o">=</span> <span class="n">keg</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:pulses</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="p">,</span> <span class="ss">:change_in_volume</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="o">/</span><span class="mi">21198</span><span class="o">.</span><span class="mi">296</span><span class="p">)</span>
+</span><span class='line'> <span class="n">measurement</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>   <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;if !keg.email_status &amp;amp;&amp;amp; (keg.check_volume &amp;lt; (keg.max_volume * 0.25))</span>
+</span><span class='line'><span class="sr">  keg.send_email</span>
+</span><span class='line'><span class="sr">  keg.email_status = true</span>
+</span><span class='line'><span class="sr">  keg.save</span>
+</span><span class='line'><span class="sr">end</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">sp</span><span class="o">.</span><span class="n">close</span> <span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>New solution</h3>
+
+<p>Here is the new code that sends measurements through pipes to our army of listening machine-bots known as servers. Thanks to Blake for helping us arrive at the Faraday gem, after failing to use Typhoeus for the same purpose!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">port_str</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">ttyACM0</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">baud_rate</span> <span class="o">=</span> <span class="mi">9600</span>
+</span><span class='line'><span class="n">data_bits</span> <span class="o">=</span> <span class="mi">8</span>
+</span><span class='line'><span class="n">stop_bits</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">parity</span> <span class="o">=</span> <span class="ss">SerialPort</span><span class="p">:</span><span class="ss">:NONE</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="k">while</span> <span class="kp">true</span> <span class="k">do</span>
+</span><span class='line'>   <span class="n">pulses</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">gets</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;\</span><span class="n">r</span><span class="p">\</span><span class="n">n</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="ss">:&amp;</span><span class="n">rsquo</span><span class="p">;)</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">to_i</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;   if pulses &gt; 300 &amp;amp;&amp;amp; pulses &amp;lt; 8000&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span> <span class="n">conn</span> <span class="o">=</span> <span class="no">Faraday</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:url</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="s1">&#39;http://www.kegkong.com&#39;</span><span class="p">)</span>
+</span><span class='line'> <span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/here&quot;</span><span class="p">,</span> <span class="p">{</span><span class="ss">:pulses</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="p">,</span> <span class="ss">:change_in_volume</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="o">/</span><span class="mi">21198</span><span class="o">.</span><span class="mi">296</span><span class="p">})</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>   <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">sp</span><span class="o">.</span><span class="n">close</span> <span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>On the Sinatra controller side, we had to build a new route to listen for the packet transmission:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;post &#39;/</span><span class="n">here</span><span class="err">&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1">#keg.email_status = false</span>
+</span><span class='line'>  <span class="vi">@keg</span> <span class="o">=</span> <span class="no">Keg</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'>  <span class="n">pulses</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:pulses</span><span class="o">].</span><span class="n">to_i</span>
+</span><span class='line'>  <span class="n">change_in_volume</span> <span class="o">=</span> <span class="n">pulses</span><span class="o">/</span><span class="mi">21198</span><span class="o">.</span><span class="mi">296</span>
+</span><span class='line'>  <span class="vi">@keg</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:pulses</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pulses</span><span class="p">,</span> <span class="ss">:change_in_volume</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">change_in_volume</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@keg</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="o">!</span><span class="vi">@keg</span><span class="o">.</span><span class="n">email_status</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="p">(</span><span class="vi">@keg</span><span class="o">.</span><span class="n">check_volume</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="p">(</span><span class="vi">@keg</span><span class="o">.</span><span class="n">max_volume</span> <span class="o">*</span> <span class="mi">0</span><span class="o">.</span><span class="mi">25</span><span class="p">))</span>
+</span><span class='line'>    <span class="vi">@keg</span><span class="o">.</span><span class="n">send_email</span>
+</span><span class='line'>    <span class="vi">@keg</span><span class="o">.</span><span class="n">email_status</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="vi">@keg</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Next steps</h3>
+
+<p>We are not presently handling transmission failure should the internet be down or we experience some other issue. We can build that by listening for the http request responses, and storing the packet for later transmission should the transmission not at first succeed.</p>
+]]></content>
+  </entry>
+  
+</feed>

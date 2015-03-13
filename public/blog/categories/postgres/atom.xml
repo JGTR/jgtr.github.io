@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: postgres, | Coding Philosophical]]></title>
+  <link href="http://jgtr.github.io/blog/categories/postgres/atom.xml" rel="self"/>
+  <link href="http://jgtr.github.io/"/>
+  <updated>2013-12-06T20:40:56-05:00</updated>
+  <id>http://jgtr.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Trevino]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Deploying a Sqlite3 database to Heroku for production using Postgres]]></title>
+    <link href="http://jgtr.github.io/blog/2013/07/28/deploying-a-sqlite3-database-to-heroku-for-production-using-postgres/"/>
+    <updated>2013-07-28T23:21:00-04:00</updated>
+    <id>http://jgtr.github.io/blog/2013/07/28/deploying-a-sqlite3-database-to-heroku-for-production-using-postgres</id>
+    <content type="html"><![CDATA[<p>In this post I want to discuss how we deployed to production on Heroku despite having applications running sqlite databases.</p>
+
+<h3>The problem</h3>
+
+<p>Sqlite is a very easy database to setup, and hence, it has been the starting point for the projects I have worked on at the <a href="http://flatironschool.com">Flatiron School</a>. These include:</p>
+
+<ul>
+<li><a href="http://www.kegkong.com">Kegkong</a>: an Arduino-powered flow-meter for the Keg, with a Sinatra web-interface</li>
+<li><a href="http://vast-ravine-3721.herokuapp.com">InstaQuiz</a>: a Ruby on Rails web application to empower teachers and students to collaborate in the creation of class quizzes</li>
+<li><a href="http://www.missionapp.co">Mission</a>: The webpage of an iPhone app I have been working on, that will facilitate discovery and participation on Instagram photo contests.</li>
+</ul>
+
+
+<p>The natural evolution of development is to want to deploy to a server on the web and link the project to a meaningful domain name such as www.kegkong.com, by using a CNAME.</p>
+
+<p>(There is definitely a place for taking control of your server and using something like <a href="http://www.digitalocean.com">Digital Ocean</a>, however, <a href="http://www.heroku.com">Heroku</a> is my preferred service for quick deployment.)</p>
+
+<p>One problem my teams have run into when trying to deploy to Heroku, is that Heroku no longer supports sqlite as a production database. This is troublesome because in the development of our projects, there is a significant amount of data that we have generated which we would like to maintain. This is also somewhat of an inconvenience because we have not been fully versed in the use of other more production-ready databases.</p>
+
+<p>I will assume for this post that the reader is already comfortable with deploying to Heroku and will focus on the database aspect.</p>
+
+<h3>Deploying to Heroku</h3>
+
+<p>Once you have an account with Heroku, and have initialized the git repository, it is very easy to deploy the application from your project folder on your console. The commands are:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku create
+</span><span class='line'>git push heroku master
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This will provide you with a temporary url, such as: <a href="http://vast-ravine-3721.herokuapp.com">http://vast-ravine-3721.herokuapp.com</a>.</p>
+
+<p>If your application is running on sqlite3, Heroku will generate errors telling you this isn&rsquo;t working.</p>
+
+<h3>Enabling postgres for production</h3>
+
+<p>Now you need to tell your application to use postgres when in production. This requires the use of the &lsquo;pg&rsquo; gem, and code as follows in your Gemfile:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">sqlite3</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;group :production do</span>
+</span><span class='line'><span class="sr">  gem &amp;lsquo;pg&amp;rsquo;</span>
+</span><span class='line'><span class="sr">  gem &amp;ldquo;activerecord-postgresql-adapter&amp;rdquo;</span>
+</span><span class='line'><span class="sr">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>You must also setup a config directory and a database.yml file in it to tell postgres the credentials to your database. Mine looks like this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>development:
+</span><span class='line'>  adapter: sqlite3
+</span><span class='line'>  database: database.db&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>test:
+</span><span class='line'>  adapter: sqlite3
+</span><span class='line'>  database: database.db&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>production:
+</span><span class='line'>  adapter: postgresql
+</span><span class='line'>  database: mission
+</span><span class='line'>  username: username
+</span><span class='line'>  password: password
+</span><span class='line'>  host: localhost</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>If you are using Sinatra, you must tell the App to establish a connection between Activerecord and your database, otherwise you will not be able to run your migrations. Add this code to your app.rb or custom environment.rb file:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">configure</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:database</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="ss">sqlite3</span><span class="p">:</span><span class="sr">//</span><span class="o">/</span><span class="n">database</span><span class="o">.</span><span class="n">db</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;configure :production do</span>
+</span><span class='line'><span class="sr">  db = URI.parse(ENV[&amp;lsquo;DATABASE_URL&amp;rsquo;] || &amp;lsquo;postgres:/</span><span class="o">/</span><span class="n">localhost</span><span class="o">/</span><span class="n">mydb</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  ActiveRecord::Base.establish_connection(&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="ss">:adapter</span>  <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">db</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;postgres&#39;</span> <span class="p">?</span> <span class="s1">&#39;postgresql&#39;</span> <span class="p">:</span> <span class="n">db</span><span class="o">.</span><span class="n">scheme</span><span class="p">,</span>
+</span><span class='line'><span class="ss">:host</span>     <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">db</span><span class="o">.</span><span class="n">host</span><span class="p">,</span>
+</span><span class='line'><span class="ss">:username</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">db</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+</span><span class='line'><span class="ss">:password</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">db</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+</span><span class='line'><span class="ss">:database</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">db</span><span class="o">.</span><span class="n">path</span><span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'><span class="ss">:encoding</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="s1">&#39;utf8&#39;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>When I ran this code, Heroku would still be unable to open a link to the database server. To fix this, I had to add a heroku add-on, and manually activate a postgres database.</p>
+
+<p>Do this at the following link: <a href="https://addons.heroku.com/heroku-postgresql">https://addons.heroku.com/heroku-postgresql</a> . You can select the free database plan and select your application. Heroku then gives you a path name for your database. In my case, this was: HEROKU_POSTGRESQL_COBALT_URL .</p>
+
+<p>Now replace the line &lsquo;DATABASE_URL&rsquo; with the path name, and your Heroku application should recognize the database.</p>
+
+<p>Now you redeploy your code to Heroku, and this time there should be no errors associated to sqlite3.</p>
+
+<h3>Setting up your database on Heroku</h3>
+
+<p>Although the application now recognizes a postgres database, it still does not have the proper tables and data required to function properly.</p>
+
+<p>The best solution I have found thus far, is to reinitialize the database using seed data. I will discuss why merely transferring data from your development environment to Heroku has not worked for me at the end of the post.</p>
+
+<p>First, you need to setup your tables, to do this you can still use (a soon to be deprecated Heroku command):</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku rake db:migrate
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>After that you seed your shiny and new postgres database:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku rake db:seed
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And lastly you can test that your database is up and running with the right data via the Heroku console:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">heroku</span> <span class="n">run</span> <span class="n">rails</span> <span class="n">console</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;User.first</span>
+</span><span class='line'><span class="sr">=&gt; #&lt;User id: 1, name: &quot;First User&quot;, email: &quot;123@abc.com&quot;, created_at: &quot;2013-07-29 04:03:57&quot;, updated_at: &quot;2013-07-29 04:03:57&quot;, password_digest: &quot;$2a$10$zqeVVZatSnlUF79zIMPUoOHysElF/</span><span class="no">XoOif</span><span class="o">.</span><span class="n">nHX9MU3al</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="s2">&quot;&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>If there are no other errors, your application should now work as expected.</p>
+
+<h3>Challenges</h3>
+
+<p>There were two additional problems that I had to deal with:</p>
+
+<ul>
+<li>Transferring data from a sqlite3 database to postgres</li>
+<li>Precompiling assets when the Rails app on Heroku could not locate the application.js file.</li>
+</ul>
+
+
+<p>  Both of these problems remain largely unresolved, I avoided the first by restarting the database and not transferring data as I wanted to do. And I avoided the second by simply deleting the application.js file. None of these are the appropriate solutions, and so I plan to tackle these problems in my next posts.</p>
+
+<p>Happy coding.</p>
+]]></content>
+  </entry>
+  
+</feed>
